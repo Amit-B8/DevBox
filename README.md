@@ -1,39 +1,41 @@
 # DevBox 🧰
 
-A lightweight, all-in-one web utility suite designed for developers, students, and power users. Instead of opening multiple browser tabs for random online converters, formatters, and encoders, DevBox houses a growing collection of fast, client-side mini-tools in a single, clean dashboard.
-
----
+An all-in-one developer utility suite built with Next.js, TypeScript, and Tailwind CSS. Designed to provide quick, responsive tools for everyday engineering tasks.
 
 ## Features
 
-* **JSON Prettifier & Validator:** Instantly format, colorize, and validate messy JSON strings.
-* **Base64 & URL Encoder/Decoder:** Quickly encode or decode text and URLs on the fly.
-* **Color Code Converter:** Translate HEX values into RGB, HSL, and CMYK formats with live swatches.
-* **Markdown Live Previewer:** A split-screen editor that renders Markdown into HTML in real time.
-* **Password & UUID Generator:** Generate secure, customizable random passwords and unique identifiers instantly.
-
----
+- **JSON Prettifier**: Format, validate, and inspect JSON payloads.
+- **Base64 Encoder**: Encode and decode text on the fly.
+- **Color Converter**: Translate HEX codes to RGB and HSL formats.
+- **Markdown Previewer**: Render Markdown live into clean HTML snippets.
+- **Password Generator**: Create secure randomized strings and tokens.
 
 ## Tech Stack
 
-* **Framework:** Next.js (React)
-* **Language:** TypeScript
-* **Styling:** Tailwind CSS
-
----
+- **Framework**: [Next.js](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
 
 ## Getting Started
 
-1. Clone the repository:
-   ```bash
-   git clone git@github.com:Amit-B8/DevBox.git
-Navigate into the directory and install dependencies:
+First, install the dependencies:
 
-Bash
-cd DevBox
+```bash
 npm install
-Run the development server:
+Then, run the development server:
 
 Bash
 npm run dev
-Open http://localhost:3000 in your browser.
+Open http://localhost:3000 with your browser to see the result.
+
+
+---
+
+### Commit Command
+
+Run these commands in your terminal to save and push the changes:
+
+```bash
+git add README.md
+git commit -m "update readme with project overview and tech stack"
+git push
