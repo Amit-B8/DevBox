@@ -1,51 +1,43 @@
-"use client";
-
-import React, { useState } from 'react';
 import Link from 'next/link';
-import { toolsData, categories, Category } from '@/data/tools';
 
 export default function Home() {
-  const [activeCategory, setActiveCategory] = useState<Category>("Common Dev");
-
-  // Filter tools based on the currently selected tab
-  const filteredTools = toolsData.filter(tool => tool.category === activeCategory);
-
   return (
-    <main className="min-h-screen p-8 bg-gray-950 text-white">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">DevBox Dashboard</h1>
-          <p className="text-gray-400 mt-1">Select a utility tool to begin.</p>
-        </header>
+    <main className="min-h-screen bg-gray-950 text-white flex flex-col items-center justify-center p-8">
+      <div className="max-w-5xl w-full text-center mb-16">
+        <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">DevBox <span className="text-blue-500">.</span></h1>
+        <p className="text-xl text-gray-400">Select your workspace to begin.</p>
+      </div>
 
-        {/* Category Tabs */}
-        <div className="flex space-x-2 mb-8 overflow-x-auto pb-2 border-b border-gray-800">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition whitespace-nowrap ${
-                activeCategory === category 
-                  ? "bg-blue-600 text-white" 
-                  : "bg-gray-900 text-gray-400 hover:bg-gray-800 hover:text-white"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl">
+        
+        {/* Engineering Hub Path */}
+        <Link 
+          href="/engineering" 
+          className="group flex flex-col items-center justify-center p-12 bg-gray-900 border border-gray-800 rounded-3xl hover:border-blue-500 hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.3)] transition-all duration-300 text-center cursor-pointer"
+        >
+          <div className="text-7xl mb-6 group-hover:scale-110 transition-transform duration-300">
+            ⚙️
+          </div>
+          <h2 className="text-2xl font-bold mb-4">Engineering & Dev Tools</h2>
+          <p className="text-gray-400 leading-relaxed max-w-sm">
+            Heavy-duty developer utilities. Everything from JSON parsing and JWT decoding to low-level hardware base conversions.
+          </p>
+        </Link>
 
-        {/* Dynamic Tool Grid */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {filteredTools.map((tool) => (
-            <Link href={tool.href} key={tool.id}>
-              <div className="p-6 rounded-xl bg-gray-900 border border-gray-800 hover:border-gray-600 hover:bg-gray-800 transition cursor-pointer h-full">
-                <h2 className="text-xl font-semibold mb-2">{tool.name}</h2>
-                <p className="text-gray-400 text-sm">{tool.description}</p>
-              </div>
-            </Link>
-          ))}
-        </section>
+        {/* General Utilities Path */}
+        <Link 
+          href="/utilities" 
+          className="group flex flex-col items-center justify-center p-12 bg-gray-900 border border-gray-800 rounded-3xl hover:border-emerald-500 hover:shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)] transition-all duration-300 text-center cursor-pointer"
+        >
+          <div className="text-7xl mb-6 group-hover:scale-110 transition-transform duration-300">
+            📂
+          </div>
+          <h2 className="text-2xl font-bold mb-4">General Utilities</h2>
+          <p className="text-gray-400 leading-relaxed max-w-sm">
+            Universal everyday tools. Image converters, document formatters, secure password generators, and fast data utilities.
+          </p>
+        </Link>
+
       </div>
     </main>
   );
