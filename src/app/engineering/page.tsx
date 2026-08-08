@@ -12,7 +12,7 @@ export default function EngineeringHub() {
         
         <header className="mb-12 border-b border-gray-800 pb-6">
           <h1 className="text-4xl font-bold tracking-tight mb-2">Engineering Tools</h1>
-          <p className="text-gray-400">Utilities for full-stack architecture and low-level system design.</p>
+          <p className="text-gray-400">Practical utilities for development, debugging, and system design.</p>
         </header>
 
         {/* Section 1: Web & Payloads */}
@@ -24,7 +24,7 @@ export default function EngineeringHub() {
             
             <Link href="/engineering/json-markdown" className="group block">
               <div className="p-6 rounded-xl bg-gray-900 border border-gray-800 group-hover:border-blue-500 transition-all h-full">
-                <h3 className="text-xl font-semibold mb-2">JSON ⇄ Markdown</h3>
+                <h3 className="text-xl font-semibold mb-2">JSON → Markdown</h3>
                 <p className="text-gray-400 text-sm">Convert JSON payloads into formatted Markdown tables.</p>
               </div>
             </Link>
@@ -56,7 +56,7 @@ export default function EngineeringHub() {
             <Link href="/engineering/bitwise" className="group block">
               <div className="p-6 rounded-xl bg-gray-900 border border-gray-800 group-hover:border-blue-500 transition-all h-full">
                 <h3 className="text-xl font-semibold mb-2">Bitwise Calculator</h3>
-                <p className="text-gray-400 text-sm">Perform AND, OR, XOR, and bit-shifting operations on binary sequences.</p>
+                <p className="text-gray-400 text-sm">Perform AND, OR, XOR, and bit-shifting operations on binary values.</p>
               </div>
             </Link>
 
