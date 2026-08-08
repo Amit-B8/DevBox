@@ -25,7 +25,7 @@ export default function EngineeringHub() {
             <Link href="/engineering/json-markdown" className="group block">
               <div className="p-6 rounded-xl bg-gray-900 border border-gray-800 group-hover:border-blue-500 transition-all h-full">
                 <h3 className="text-xl font-semibold mb-2">JSON ⇄ Markdown</h3>
-                <p className="text-gray-400 text-sm">Convert JSON payloads into formatted Markdown tables and vice versa.</p>
+                <p className="text-gray-400 text-sm">Convert JSON payloads into formatted Markdown tables.</p>
               </div>
             </Link>
 
