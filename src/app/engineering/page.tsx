@@ -42,7 +42,7 @@ export default function EngineeringHub() {
         {/* Section 2: Hardware & Embedded */}
         <section>
           <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-            <span>🔌</span> Base Conversions & Hardware
+            <span>🔢</span> Number Systems & Bitwise
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
