@@ -7,7 +7,6 @@ export default function BitwiseCalculator() {
   const [num1, setNum1] = useState('');
   const [num2, setNum2] = useState('');
   const [operation, setOperation] = useState('AND');
-}
 
   const calculate = () => {
     const val1 = parseInt(num1, 10);
@@ -25,6 +24,7 @@ export default function BitwiseCalculator() {
       case 'RSHIFT': result = val1 >> (isNaN(val2) ? 0 : val2); break;
     }
 
+    // Convert to 32-bit unsigned integer for cleaner binary display
     const unsignedResult = result >>> 0;
     
     return {
@@ -51,10 +51,9 @@ export default function BitwiseCalculator() {
         <div className="bg-gray-900 border border-gray-800 rounded-xl p-8 shadow-xl">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end mb-8">
             
+            {/* Input 1 */}
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-                Value 1 (Dec)
-              </label>
+              <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">Value 1 (Dec)</label>
               <input
                 type="number"
                 value={num1}
@@ -64,10 +63,9 @@ export default function BitwiseCalculator() {
               />
             </div>
 
+            {/* Operator Dropdown */}
             <div>
-              <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-                Operation
-              </label>
+              <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">Operation</label>
               <select
                 value={operation}
                 onChange={(e) => setOperation(e.target.value)}
@@ -82,10 +80,9 @@ export default function BitwiseCalculator() {
               </select>
             </div>
 
+            {/* Input 2 */}
             <div className={operation === 'NOT' ? 'opacity-30 pointer-events-none' : ''}>
-              <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
-                Value 2 (Dec)
-              </label>
+              <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">Value 2 (Dec)</label>
               <input
                 type="number"
                 value={num2}
@@ -97,3 +94,24 @@ export default function BitwiseCalculator() {
             </div>
 
           </div>
+
+          {/* Result Area */}
+          <div className="bg-gray-950 border border-gray-800 rounded-lg p-6">
+            <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Result</h3>
+            <div className="space-y-4">
+              <div>
+                <span className="text-gray-500 w-24 inline-block">Decimal:</span>
+                <span className="text-2xl font-mono">{result.dec}</span>
+              </div>
+              <div>
+                <span className="text-gray-500 w-24 inline-block">Binary:</span>
+                <span className="text-2xl font-mono text-blue-400 break-all">{result.bin}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  );
+}
