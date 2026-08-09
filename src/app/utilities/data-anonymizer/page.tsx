@@ -12,6 +12,9 @@ export default function DataAnonymizer() {
   const [scrubPhone, setScrubPhone] = useState(true);
   const [scrubSSN, setScrubSSN] = useState(true);
 
+  // State for the copy button feedback
+  const [copied, setCopied] = useState(false);
+
   const handleAnonymize = () => {
     let processedText = inputText;
 
@@ -34,12 +37,26 @@ export default function DataAnonymizer() {
     }
 
     setOutputText(processedText);
+    setCopied(false); // Reset copy status if they process new data
   };
 
   const handleClear = () => {
     setInputText('');
     setOutputText('');
+    setCopied(false);
   };
+
+  const handleCopy = () => {
+    if (!outputText) return;
+    navigator.clipboard.writeText(outputText);
+    setCopied(true);
+    
+    // Reset the text back to "Copy" after 2 seconds
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+
   return (
     <main className="min-h-screen p-8 bg-gray-950 text-white flex flex-col">
       <div className="max-w-6xl mx-auto w-full flex-grow flex flex-col">
@@ -92,9 +109,9 @@ export default function DataAnonymizer() {
               <span>Raw Data</span>
               <button 
                 onClick={handleClear}
-                className="text-gray-400 hover:text-white text-xs"
+                className="bg-gray-700 hover:bg-red-500/80 border border-gray-600 hover:border-red-500 text-gray-200 px-3 py-1 rounded-md text-xs font-medium transition-all shadow-sm"
               >
-                Clear
+                Clear Input
               </button>
             </div>
             <textarea
@@ -105,11 +122,11 @@ export default function DataAnonymizer() {
             />
           </div>
 
-          {/* Action Button (Mobile vertical, Desktop horizontal) */}
+          {/* Action Button */}
           <div className="flex items-center justify-center">
             <button 
               onClick={handleAnonymize}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition shadow-sm w-full lg:w-auto"
+              className="bg-blue-600 hover:bg-blue-500 border border-blue-500 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] shadow-lg w-full lg:w-auto"
             >
               Anonymize &rarr;
             </button>
@@ -117,8 +134,19 @@ export default function DataAnonymizer() {
 
           {/* Output Area */}
           <div className="flex-1 flex flex-col">
-            <div className="bg-gray-800 px-4 py-3 text-sm font-semibold text-gray-300 border border-gray-700 rounded-t-xl">
-              Sanitized Output
+            <div className="bg-gray-800 px-4 py-3 text-sm font-semibold text-gray-300 border border-gray-700 rounded-t-xl flex justify-between items-center">
+              <span>Sanitized Output</span>
+              <button 
+                onClick={handleCopy}
+                disabled={!outputText}
+                className={`text-xs font-medium transition-all px-3 py-1.5 rounded-md border shadow-sm ${
+                  copied 
+                    ? 'bg-emerald-900/50 border-emerald-500 text-emerald-400' 
+                    : 'bg-gray-700 hover:bg-emerald-600 border-gray-600 hover:border-emerald-500 text-gray-200 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-gray-700 disabled:hover:border-gray-600'
+                }`}
+              >
+                {copied ? 'Copied! ✓' : 'Copy to Clipboard'}
+              </button>
             </div>
             <textarea
               readOnly
