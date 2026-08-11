@@ -29,7 +29,7 @@ export default function EngineeringHub() {
               </div>
             </Link>
 
-            <Link href="/engineering/jwt" className="group block">
+            <Link href="/engineering/jwt-inspector" className="group block">
               <div className="p-6 rounded-xl bg-gray-900 border border-gray-800 group-hover:border-blue-500 transition-all h-full">
                 <h3 className="text-xl font-semibold mb-2">JWT Inspector</h3>
                 <p className="text-gray-400 text-sm">Decode, verify, and inspect JSON Web Tokens.</p>
