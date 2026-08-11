@@ -123,16 +123,15 @@ export default function ImageConverter() {
                     className="bg-emerald-600 hover:bg-emerald-500 border border-emerald-500 text-white px-8 py-3 rounded-xl font-bold text-lg transition-all transform hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] shadow-lg w-full md:w-auto text-center"
                   >
                     Download JPG ⬇️
-                  </a>
-                  
+                  </a>                  
                   <button 
                     onClick={() => {
                       setSelectedImage(null);
                       setConvertedImage(null);
                     }}
-                    className="mt-6 text-gray-400 hover:text-white text-sm underline transition-colors"
+                    className="mt-6 px-6 py-3 rounded-xl border border-gray-600 bg-gray-800 text-gray-200 hover:bg-gray-700 hover:border-blue-500 hover:text-white font-semibold text-sm transition-all duration-200 shadow-md hover:shadow-[0_0_15px_rgba(59,130,246,0.25)]"
                   >
-                    Convert another image
+                    ← Convert another image
                   </button>
                 </div>
               )}
