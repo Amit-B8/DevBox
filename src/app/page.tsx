@@ -20,7 +20,7 @@ export default function Home() {
           </div>
           <h2 className="text-2xl font-bold mb-4">Engineering & Dev Tools</h2>
           <p className="text-gray-400 leading-relaxed max-w-sm">
-            Heavy-duty developer utilities. Everything from JSON parsing and JWT decoding to low-level hardware base conversions.
+            Engineering tools built for quick conversions, calculations, code processing, and more
           </p>
         </Link>
 
