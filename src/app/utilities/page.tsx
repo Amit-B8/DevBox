@@ -31,6 +31,14 @@ export default function UtilitiesHub() {
               </div>
             </Link>
 
+            {/* New Password Generator Link */}
+            <Link href="/utilities/password-generator" className="group block">
+              <div className="p-6 rounded-xl bg-gray-900 border border-gray-800 group-hover:border-emerald-500 transition-all h-full">
+                <h3 className="text-xl font-semibold mb-2">Password Generator</h3>
+                <p className="text-gray-400 text-sm">Generate strong, random passwords securely in your browser.</p>
+              </div>
+            </Link>
+
           </div>
         </section>
 
