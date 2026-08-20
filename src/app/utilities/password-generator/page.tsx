@@ -1,4 +1,4 @@
-"use client";  
+"use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
@@ -11,7 +11,8 @@ export default function PasswordGenerator() {
   const [includeNumbers, setIncludeNumbers] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(true);
   const [copied, setCopied] = useState(false);
-    const generatePassword = useCallback(() => {
+
+  const generatePassword = useCallback(() => {
     let charset = '';
     if (includeLowercase) charset += 'abcdefghijklmnopqrstuvwxyz';
     if (includeUppercase) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -43,7 +44,8 @@ export default function PasswordGenerator() {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-    return (
+
+  return (
     <main className="min-h-screen p-8 bg-gray-950 text-white flex flex-col">
       <div className="max-w-3xl mx-auto w-full flex-grow flex flex-col">
         
@@ -74,3 +76,83 @@ export default function PasswordGenerator() {
               {copied ? 'Copied!' : 'Copy'}
             </button>
           </div>
+
+          {/* Controls */}
+          <div className="space-y-6">
+            
+            {/* Length Slider */}
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <label className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
+                  Password Length
+                </label>
+                <span className="text-xl font-bold text-blue-400">{length}</span>
+              </div>
+              <input
+                type="range"
+                min="8"
+                max="64"
+                value={length}
+                onChange={(e) => setLength(Number(e.target.value))}
+                className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+              />
+            </div>
+
+            {/* Toggles */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-800">
+              <label className="flex items-center space-x-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={includeUppercase}
+                  onChange={(e) => setIncludeUppercase(e.target.checked)}
+                  className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 bg-gray-800 cursor-pointer"
+                />
+                <span className="text-gray-300 group-hover:text-white transition-colors">Uppercase (A-Z)</span>
+              </label>
+
+              <label className="flex items-center space-x-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={includeLowercase}
+                  onChange={(e) => setIncludeLowercase(e.target.checked)}
+                  className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 bg-gray-800 cursor-pointer"
+                />
+                <span className="text-gray-300 group-hover:text-white transition-colors">Lowercase (a-z)</span>
+              </label>
+
+              <label className="flex items-center space-x-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={includeNumbers}
+                  onChange={(e) => setIncludeNumbers(e.target.checked)}
+                  className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 bg-gray-800 cursor-pointer"
+                />
+                <span className="text-gray-300 group-hover:text-white transition-colors">Numbers (0-9)</span>
+              </label>
+
+              <label className="flex items-center space-x-3 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={includeSymbols}
+                  onChange={(e) => setIncludeSymbols(e.target.checked)}
+                  className="w-5 h-5 rounded border-gray-600 text-blue-500 focus:ring-blue-500 bg-gray-800 cursor-pointer"
+                />
+                <span className="text-gray-300 group-hover:text-white transition-colors">Symbols (!@#$...)</span>
+              </label>
+            </div>
+          </div>
+          
+        </div>
+
+        {/* Generate Button */}
+        <button
+          onClick={generatePassword}
+          className="w-full bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:border-blue-500 active:scale-[0.98]"
+        >
+          🔄 Generate New Password
+        </button>
+
+      </div>
+    </main>
+  );
+}
