@@ -39,6 +39,13 @@ export default function UtilitiesHub() {
               </div>
             </Link>
 
+            <Link href="/utilities/csv-to-json" className="group block">
+              <div className="p-6 rounded-xl bg-gray-900 border border-gray-800 group-hover:border-emerald-500 transition-all h-full">
+                <h3 className="text-xl font-semibold mb-2">CSV to JSON</h3>
+                <p className="text-gray-400 text-sm">Instantly structure raw comma-separated spreadsheet data into JSON arrays.</p>
+              </div>
+            </Link>
+
           </div>
         </section>
 
