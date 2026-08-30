@@ -1,4 +1,4 @@
-import { LucideIcon, Code2, Zap, Lock, FileJson, Database, Binary, Eye, Palette, Image, Shield } from 'lucide-react';
+import { LucideIcon, Code2, Zap, Lock, FileJson, Database, Binary, Eye, Palette, Image, Shield, TrendingUp, Ruler, Activity } from 'lucide-react';
 
 /**
  * Discipline Groups for Tool Organization
@@ -90,6 +90,14 @@ export const tools: Tool[] = [
     href: "/engineering/logic-simulator",
     icon: Code2,
   },
+  {
+    id: "resistor-decoder",
+    name: "Resistor Decoder",
+    description: "Decode 4-band resistor color codes to find resistance values in ohms.",
+    discipline: "Electrical & Embedded",
+    href: "/engineering/ece/resistor-decoder",
+    icon: Zap,
+  },
 
   // ==================== MECHANICAL & AEROSPACE ====================
   {
@@ -97,8 +105,8 @@ export const tools: Tool[] = [
     name: "Unit Converter",
     description: "Convert between imperial, metric, and SI units for engineering calculations.",
     discipline: "Mechanical & Aerospace",
-    href: "/engineering/unit-converter",
-    icon: Zap,
+    href: "/engineering/mechanical/unit-converter",
+    icon: Ruler,
   },
   {
     id: "thermal-calc",
@@ -133,6 +141,36 @@ export const tools: Tool[] = [
     discipline: "General Utilities",
     href: "/utilities/data-anonymizer",
     icon: Eye,
+  },
+
+  // ==================== MEDICAL SCIENCES ====================
+  {
+    id: "visual-acuity-converter",
+    name: "Visual Acuity Converter",
+    description: "Convert Snellen fractions to LogMAR values for ophthalmic research and clinical assessment.",
+    discipline: "Medical Sciences",
+    href: "/medical/visual-acuity",
+    icon: Activity,
+  },
+
+  // ==================== FINANCE & ECONOMICS ====================
+  {
+    id: "roi-calculator",
+    name: "ROI Calculator",
+    description: "Calculate return on investment percentage from initial investment and final value.",
+    discipline: "Finance & Economics",
+    href: "/finance/roi-calculator",
+    icon: TrendingUp,
+  },
+
+  // ==================== CREATIVE & DESIGN ====================
+  {
+    id: "color-converter",
+    name: "HEX / RGB Color Converter",
+    description: "Convert between HEX codes and RGB values with live color preview.",
+    discipline: "Creative & Design",
+    href: "/creative/color-converter",
+    icon: Palette,
   },
 ];
 
