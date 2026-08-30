@@ -87,7 +87,7 @@ export const tools: Tool[] = [
     name: "Logic Simulator",
     description: "Simulate digital logic gates and circuits with truth tables.",
     discipline: "Electrical & Embedded",
-    href: "/engineering/logic-simulator",
+    href: "/engineering/ece/logic-simulator",
     icon: Code2,
   },
   {
@@ -113,7 +113,7 @@ export const tools: Tool[] = [
     name: "Thermal Calculator",
     description: "Calculate heat transfer, thermal resistance, and temperature conversions.",
     discipline: "Mechanical & Aerospace",
-    href: "/engineering/thermal-calc",
+    href: "/engineering/mechanical/thermal-calculator",
     icon: Palette,
   },
 

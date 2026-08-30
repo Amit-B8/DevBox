@@ -190,7 +190,7 @@ export default function ResistorDecoder() {
                 >
                   {colorNames.map((color) => (
                     <option key={color} value={color}>
-                      {color.charAt(0).toUpperCase() + color.slice(1)} (×10<sup>{colorValues[color]}</sup>)
+                      {color.charAt(0).toUpperCase() + color.slice(1)} (×10^{colorValues[color]})
                     </option>
                   ))}
                 </select>
