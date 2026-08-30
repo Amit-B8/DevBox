@@ -26,9 +26,9 @@ export default function EngineeringHub() {
         </Link>
 
         <header className="mb-16 border-b border-gray-800 pb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Engineering & Systems</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Engineering Toolkit</h1>
           <p className="text-lg text-gray-400 max-w-2xl">
-            Professional tools for computer science, electrical engineering, and mechanical systems. Accelerate your workflow with precision utilities.
+            Hardware utilities, system converters, and data parsers for engineering disciplines.
           </p>
         </header>
 

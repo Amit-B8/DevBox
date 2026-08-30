@@ -22,9 +22,9 @@ export default function CreativeHub() {
         </Link>
 
         <header className="mb-16 border-b border-gray-800 pb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Creative & Design</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Creative Toolkit</h1>
           <p className="text-lg text-gray-400 max-w-2xl">
-            Design tools for creative professionals. Image processing, color converters, and asset management utilities.
+            Image processing, color formatting, and asset converters for design professionals.
           </p>
         </header>
 

@@ -70,7 +70,7 @@ export default function JWTInspector() {
       <div className="max-w-5xl mx-auto w-full flex-grow flex flex-col">
         
         <Link href="/engineering" className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block">
-          &larr; Back to Engineering Hub
+          &larr; Back to Engineering Toolkit
         </Link>
         
         <header className="mb-8">

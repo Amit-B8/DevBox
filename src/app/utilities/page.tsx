@@ -22,9 +22,9 @@ export default function UtilitiesHub() {
         </Link>
 
         <header className="mb-16 border-b border-gray-800 pb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">General Utilities</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">General Toolkit</h1>
           <p className="text-lg text-gray-400 max-w-2xl">
-            Everyday tools for productivity. Generate secure passwords, convert images, anonymize data, and streamline your workflows.
+            Everyday utilities, password generators, and secure data formatters.
           </p>
         </header>
 

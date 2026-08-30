@@ -22,9 +22,9 @@ export default function MedicalHub() {
         </Link>
 
         <header className="mb-16 border-b border-gray-800 pb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Medical Sciences</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Medical Toolkit</h1>
           <p className="text-lg text-gray-400 max-w-2xl">
-            Professional medical tools for healthcare professionals, researchers, and clinicians. Precision calculators and diagnostic utilities.
+            Clinical calculators, dose converters, and diagnostic utilities for healthcare professionals.
           </p>
         </header>
 

@@ -40,7 +40,7 @@ export default function BitwiseCalculator() {
       <div className="max-w-4xl mx-auto w-full flex-grow">
         
         <Link href="/engineering" className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block">
-          &larr; Back to Engineering Hub
+          &larr; Back to Engineering Toolkit
         </Link>
         
         <header className="mb-10">

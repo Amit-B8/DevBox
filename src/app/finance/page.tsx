@@ -22,9 +22,9 @@ export default function FinanceHub() {
         </Link>
 
         <header className="mb-16 border-b border-gray-800 pb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Finance & Economics</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Finance Toolkit</h1>
           <p className="text-lg text-gray-400 max-w-2xl">
-            Financial analysis tools, currency converters, and economic calculators for professionals and economists.
+            ROI calculators, currency conversions, and economic analysis utilities.
           </p>
         </header>
 

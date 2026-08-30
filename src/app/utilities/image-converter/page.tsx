@@ -63,7 +63,7 @@ export default function ImageConverter() {
       <div className="max-w-4xl mx-auto w-full flex-grow flex flex-col">
         
         <Link href="/utilities" className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block">
-          &larr; Back to Utilities Hub
+          &larr; Back to General Toolkit
         </Link>
         
         <header className="mb-8">

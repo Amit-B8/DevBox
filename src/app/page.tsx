@@ -13,11 +13,11 @@ export default function Home() {
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight mb-6">
               DevBox
               <span className="block text-transparent bg-gradient-to-r from-slate-400 to-slate-200 bg-clip-text">
-                Engineering Toolkit
+                Professional Utility Suite
               </span>
             </h1>
             <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto">
-              A comprehensive suite of professional tools across engineering, medical sciences, finance, and creative disciplines.
+              A comprehensive suite of professional calculators, converters, and data utilities across engineering, medical sciences, finance, and creative disciplines.
             </p>
           </div>
         </div>
