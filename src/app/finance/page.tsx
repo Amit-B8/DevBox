@@ -4,8 +4,8 @@ import Link from 'next/link';
 import ToolCard from '@/components/ToolCard';
 import { getToolsByDiscipline } from '@/data/tools';
 
-export default function UtilitiesHub() {
-  const tools = getToolsByDiscipline("General Utilities");
+export default function FinanceHub() {
+  const tools = getToolsByDiscipline("Finance & Economics");
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
@@ -22,14 +22,14 @@ export default function UtilitiesHub() {
         </Link>
 
         <header className="mb-16 border-b border-gray-800 pb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">General Utilities</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Finance & Economics</h1>
           <p className="text-lg text-gray-400 max-w-2xl">
-            Everyday tools for productivity. Generate secure passwords, convert images, anonymize data, and streamline your workflows.
+            Financial analysis tools, currency converters, and economic calculators for professionals and economists.
           </p>
         </header>
 
         {/* Tools Grid */}
-        <div>
+        {tools.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tools.map((tool) => (
               <ToolCard
@@ -41,7 +41,11 @@ export default function UtilitiesHub() {
               />
             ))}
           </div>
-        </div>
+        ) : (
+          <div className="text-center py-16">
+            <p className="text-gray-400 text-lg">Finance tools coming soon...</p>
+          </div>
+        )}
       </div>
     </main>
   );
