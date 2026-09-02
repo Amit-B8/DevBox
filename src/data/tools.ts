@@ -1,4 +1,4 @@
-import { LucideIcon, Code2, Zap, Lock, FileJson, Database, Binary, Eye, Palette, Image, Shield, TrendingUp, Ruler, Activity } from 'lucide-react';
+import { LucideIcon, Code2, Zap, Lock, FileJson, Database, Binary, Eye, Palette, Image, Shield, TrendingUp, Ruler, Activity, FileStack } from 'lucide-react';
 
 /**
  * Discipline Groups for Tool Organization
@@ -10,6 +10,7 @@ export type Discipline =
   | "Medical Sciences"
   | "Finance & Economics"
   | "Creative & Design"
+  | "Research & Academic"
   | "General Utilities";
 
 /**
@@ -172,6 +173,16 @@ export const tools: Tool[] = [
     href: "/creative/color-converter",
     icon: Palette,
   },
+
+  // ==================== RESEARCH & ACADEMIC ====================
+  {
+    id: "pdf-combiner",
+    name: "PDF Combiner",
+    description: "Combine up to 10 PDF documents into a single ordered file in your browser.",
+    discipline: "Research & Academic",
+    href: "/research/pdf-combiner",
+    icon: FileStack,
+  },
 ];
 
 /**
@@ -205,6 +216,13 @@ export const disciplineHubs: DisciplineHub[] = [
     slug: "creative",
     description: "Image processing, color formatting, and asset converters for design professionals.",
     icon: Palette,
+  },
+  {
+    id: "research",
+    name: "Research & Academic Toolkit",
+    slug: "research",
+    description: "Citation generators, data aggregators, and document processing utilities for researchers.",
+    icon: FileStack,
   },
   {
     id: "utilities",
