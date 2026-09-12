@@ -7,6 +7,7 @@ export type Discipline =
   | "Computer Science" 
   | "Electrical & Embedded" 
   | "Mechanical & Aerospace" 
+  | "Mathematics"
   | "Medical Sciences"
   | "Finance & Economics"
   | "Creative & Design"
@@ -117,6 +118,16 @@ export const tools: Tool[] = [
     discipline: "Mechanical & Aerospace",
     href: "/engineering/mechanical/thermal-calculator",
     icon: Palette,
+  },
+
+  // ==================== MATHEMATICS ====================
+  {
+    id: "basic-calculator",
+    name: "Basic Calculator",
+    description: "Perform quick arithmetic for everyday calculations and simple number work.",
+    discipline: "Mathematics",
+    href: "/mathematics/basic-calculator",
+    icon: Binary,
   },
 
   // ==================== GENERAL UTILITIES ====================
