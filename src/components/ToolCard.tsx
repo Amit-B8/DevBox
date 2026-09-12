@@ -11,7 +11,7 @@ interface ToolCardProps {
 export default function ToolCard({ title, description, href, icon: Icon }: ToolCardProps) {
   return (
     <Link href={href}>
-      <div className="group h-full p-6 bg-gray-900 border border-gray-800 rounded-lg hover:border-slate-600 transition-all duration-200 cursor-pointer hover:-translate-y-0.5">
+      <div className="group h-full p-5 bg-gray-900/80 border border-gray-700 rounded-xl hover:border-slate-500 transition-all duration-200 cursor-pointer hover:-translate-y-0.5 shadow-sm shadow-black/20">
         {/* Icon */}
         <div className="mb-4 inline-flex p-2.5 rounded-lg bg-gray-800 group-hover:bg-gray-700 transition-colors duration-200">
           <Icon className="w-6 h-6 text-slate-300 group-hover:text-slate-100 transition-colors duration-200" />

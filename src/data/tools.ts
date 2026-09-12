@@ -21,6 +21,7 @@ export interface Tool {
   name: string;
   description: string;
   discipline: Discipline;
+  subcategory?: string;
   href: string;
   icon: LucideIcon;
 }
@@ -150,7 +151,35 @@ export const tools: Tool[] = [
     name: "Visual Acuity Converter",
     description: "Convert Snellen fractions to LogMAR values for ophthalmic research and clinical assessment.",
     discipline: "Medical Sciences",
+    subcategory: "Ophthalmology & Optometry",
     href: "/medical/visual-acuity",
+    icon: Activity,
+  },
+  {
+    id: "iol-power-calculator",
+    name: "IOL Power & Focal Length Calculator",
+    description: "Estimate approximate lens power and focal length values for ophthalmology research workflows.",
+    discipline: "Medical Sciences",
+    subcategory: "Ophthalmology & Optometry",
+    href: "/medical/iol-power",
+    icon: Activity,
+  },
+  {
+    id: "iv-drip-rate-calculator",
+    name: "IV Drip Rate Calculator",
+    description: "Calculate infusion rates in mL/hr and gtt/min for common nursing workflows.",
+    discipline: "Medical Sciences",
+    subcategory: "Nursing",
+    href: "/medical/iv-drip-rate",
+    icon: Activity,
+  },
+  {
+    id: "bsa-calculator",
+    name: "Body Surface Area Calculator",
+    description: "Estimate BSA using the Mosteller formula for dosing and perioperative planning.",
+    discipline: "Medical Sciences",
+    subcategory: "Surgery",
+    href: "/medical/bsa-calculator",
     icon: Activity,
   },
 
