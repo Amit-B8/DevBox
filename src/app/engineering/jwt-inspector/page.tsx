@@ -5,8 +5,8 @@ import Link from 'next/link';
 
 export default function JWTInspector() {
   const [token, setToken] = useState('');
-  const [header, setHeader] = useState<any>(null);
-  const [payload, setPayload] = useState<any>(null);
+  const [header, setHeader] = useState<Record<string, unknown> | null>(null);
+  const [payload, setPayload] = useState<Record<string, unknown> | null>(null);
   const [signature, setSignature] = useState('');
   const [error, setError] = useState('');
 
@@ -49,7 +49,7 @@ export default function JWTInspector() {
       setPayload(JSON.parse(base64UrlDecode(parts[1])));
       setSignature(parts[2]);
       setError('');
-    } catch (err) {
+    } catch {
       setError('Failed to decode token. Ensure it is a valid base64url encoded JSON string.');
       setHeader(null);
       setPayload(null);
@@ -70,7 +70,7 @@ export default function JWTInspector() {
       <div className="max-w-5xl mx-auto w-full flex-grow flex flex-col">
         
         <Link href="/engineering" className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block">
-          &larr; Back to Engineering Toolkit
+          &larr; Back to Engineering Tools
         </Link>
         
         <header className="mb-8">

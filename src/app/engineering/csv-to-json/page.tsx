@@ -27,7 +27,7 @@ export default function CsvToJson() {
       
       const result = lines.slice(1).map(line => {
         const values = line.split(',');
-        const obj: any = {};
+        const obj: Record<string, string> = {};
         headers.forEach((header, index) => {
           obj[header] = values[index] ? values[index].trim() : '';
         });
@@ -36,8 +36,8 @@ export default function CsvToJson() {
 
       setJsonOutput(JSON.stringify(result, null, 2));
       setError('');
-    } catch (err: any) {
-      setError(err.message || 'Failed to parse CSV format.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to parse CSV format.');
       setJsonOutput('');
     }
   };
@@ -47,7 +47,7 @@ export default function CsvToJson() {
       <div className="max-w-5xl mx-auto w-full flex-grow flex flex-col">
         
         <Link href="/engineering" className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block">
-          &larr; Back to Engineering Toolkit
+          &larr; Back to Engineering Tools
         </Link>
         
         <header className="mb-8">

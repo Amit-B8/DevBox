@@ -1,10 +1,24 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import Link from 'next/link';
 
 export default function PasswordGenerator() {
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(() => {
+    let charset = '';
+    if (true) charset += 'abcdefghijklmnopqrstuvwxyz';
+    if (true) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (true) charset += '0123456789';
+    if (true) charset += '!@#$%^&*()_+~`|}{[]:;?><,./-=';
+
+    let initialPassword = '';
+    for (let i = 0; i < 16; i += 1) {
+      const randomIndex = Math.floor(Math.random() * charset.length);
+      initialPassword += charset[randomIndex];
+    }
+
+    return initialPassword;
+  });
   const [length, setLength] = useState(16);
   const [includeUppercase, setIncludeUppercase] = useState(true);
   const [includeLowercase, setIncludeLowercase] = useState(true);
@@ -31,12 +45,7 @@ export default function PasswordGenerator() {
     }
     setPassword(newPassword);
     setCopied(false);
-  }, [length, includeUppercase, includeLowercase, includeNumbers, includeSymbols]);
-
-  // Generate an initial password on mount
-  useEffect(() => {
-    generatePassword();
-  }, [generatePassword]);
+  }, [length, includeUppercase, includeLowercase, includeNumbers, includeSymbols, setPassword]);
 
   const handleCopy = () => {
     if (password === 'Select at least one option') return;
@@ -50,7 +59,7 @@ export default function PasswordGenerator() {
       <div className="max-w-3xl mx-auto w-full flex-grow flex flex-col">
         
         <Link href="/utilities" className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block">
-          &larr; Back to General Toolkit
+          &larr; Back to Utilities Tools
         </Link>
         
         <header className="mb-8">

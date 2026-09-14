@@ -6,7 +6,7 @@ import { ArrowLeft, Eye } from 'lucide-react';
 
 export default function VisualAcuityConverter() {
   const [snellenInput, setSnellenInput] = useState('');
-  const [logmarResult, setLogmarResult] = useState<number | null>(null);
+  const [logmarResult, setLogmarResult] = useState<number | string | null>(null);
   const [conversionMode, setConversionMode] = useState<'snellen-to-logmar' | 'logmar-to-snellen'>('snellen-to-logmar');
 
   // Convert Snellen to LogMAR
@@ -40,7 +40,7 @@ export default function VisualAcuityConverter() {
       setLogmarResult(result);
     } else {
       const result = convertLogMARToSnellen(snellenInput);
-      setLogmarResult(result as any);
+      setLogmarResult(result ?? null);
     }
   };
 
@@ -49,7 +49,7 @@ export default function VisualAcuityConverter() {
     { snellen: '20/30', logmar: '0.18', description: 'Slight reduction' },
     { snellen: '20/40', logmar: '0.30', description: 'Moderate reduction' },
     { snellen: '20/60', logmar: '0.48', description: 'Significant reduction' },
-    { snellen: '20/100', logmar: '0.70', description: 'Legal blindness threshold' },
+    { snellen: '20/100', logmar: '0.70', description: 'Severe visual impairment' },
     { snellen: '20/200', logmar: '1.0', description: 'Legally blind' },
   ];
 
@@ -62,7 +62,7 @@ export default function VisualAcuityConverter() {
           className="inline-flex items-center text-slate-400 hover:text-slate-200 transition-colors mb-8 text-sm font-medium"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Medical Toolkit
+          Back to Medical Tools
         </Link>
 
         {/* Header */}
@@ -74,6 +74,10 @@ export default function VisualAcuityConverter() {
           <p className="text-gray-400">Convert between Snellen fractions and LogMAR values for clinical ophthalmic assessment and research.</p>
         </header>
 
+        <div className="mb-6 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-amber-100">
+          20/200 — U.S. statutory visual-acuity threshold for legal blindness when measured in the better eye with best correction. Certain severe visual-field restrictions may also qualify.
+        </div>
+
         {/* Main Content */}
         <div className="space-y-10">
           {/* Conversion Mode Selector */}
@@ -84,7 +88,7 @@ export default function VisualAcuityConverter() {
                 name="mode"
                 value="snellen-to-logmar"
                 checked={conversionMode === 'snellen-to-logmar'}
-                onChange={(e) => setConversionMode(e.target.value as any)}
+                onChange={(e) => setConversionMode(e.target.value as 'snellen-to-logmar' | 'logmar-to-snellen')}
                 className="w-4 h-4 text-blue-500 cursor-pointer"
               />
               <span className="ml-2 text-sm">Snellen → LogMAR</span>
@@ -95,7 +99,7 @@ export default function VisualAcuityConverter() {
                 name="mode"
                 value="logmar-to-snellen"
                 checked={conversionMode === 'logmar-to-snellen'}
-                onChange={(e) => setConversionMode(e.target.value as any)}
+                onChange={(e) => setConversionMode(e.target.value as 'snellen-to-logmar' | 'logmar-to-snellen')}
                 className="w-4 h-4 text-blue-500 cursor-pointer"
               />
               <span className="ml-2 text-sm">LogMAR → Snellen</span>

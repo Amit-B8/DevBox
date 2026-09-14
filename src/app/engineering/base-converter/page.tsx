@@ -3,30 +3,36 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
+const defaultValues = {
+  dec: '',
+  hex: '',
+  bin: '',
+  oct: '',
+};
+
 export default function BaseConverter() {
-  const [values, setValues] = useState({
-    dec: '',
-    hex: '',
-    bin: '',
-    oct: ''
+  const [values, setValues] = useState(() => {
+    if (typeof window === 'undefined') {
+      return defaultValues;
+    }
+
+    const saved = window.localStorage.getItem('devbox-base-converter');
+    if (!saved) {
+      return defaultValues;
+    }
+
+    try {
+      return { ...defaultValues, ...JSON.parse(saved) };
+    } catch {
+      return defaultValues;
+    }
   });
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load saved state from localStorage
   useEffect(() => {
-    const saved = localStorage.getItem('devbox-base-converter');
-    if (saved) {
-      setValues(JSON.parse(saved));
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('devbox-base-converter', JSON.stringify(values));
     }
-    setIsLoaded(true);
-  }, []);
-
-  // Save state to localStorage automatically
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('devbox-base-converter', JSON.stringify(values));
-    }
-  }, [values, isLoaded]);
+  }, [values]);
 
   const handleInputChange = (base: 'dec' | 'hex' | 'bin' | 'oct', val: string) => {
     // Remove spaces for easier parsing
@@ -69,7 +75,7 @@ export default function BaseConverter() {
         bin: decimalValue.toString(2),
         oct: decimalValue.toString(8)
       });
-    } catch (e) {
+    } catch {
       // Ignore invalid intermediate typing states
     }
   };
@@ -79,7 +85,7 @@ export default function BaseConverter() {
       <div className="max-w-4xl mx-auto w-full flex-grow">
         
         <Link href="/engineering" className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block">
-          &larr; Back to Engineering Toolkit
+          &larr; Back to Engineering Tools
         </Link>
         
         <header className="mb-10">

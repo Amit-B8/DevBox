@@ -1,12 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
 import ToolCard from '@/components/ToolCard';
 import { getToolsByDiscipline } from '@/data/tools';
 
-export default function ResearchHub() {
-  const tools = getToolsByDiscipline('Research & Academic');
+export default function MathematicsHub() {
+  const tools = getToolsByDiscipline('Mathematics');
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
@@ -15,14 +14,16 @@ export default function ResearchHub() {
           href="/"
           className="mb-8 inline-flex items-center text-sm font-medium text-slate-400 transition-colors hover:text-slate-200"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <svg className="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
           Back to Home
         </Link>
 
         <header className="mb-16 border-b border-gray-800 pb-8">
-          <h1 className="mb-3 text-4xl font-bold tracking-tight sm:text-5xl">Research &amp; Academic Tools</h1>
+          <h1 className="mb-3 text-4xl font-bold tracking-tight sm:text-5xl">Mathematics Tools</h1>
           <p className="max-w-2xl text-lg text-gray-400">
-            Citation generators, data aggregators, and document processing utilities for researchers.
+            Arithmetic, calculus, and matrix tools for quick calculations, technical exploration, and education.
           </p>
         </header>
 

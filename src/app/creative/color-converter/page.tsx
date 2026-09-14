@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { ArrowLeft, Palette } from 'lucide-react';
 
 export default function ColorConverter() {
@@ -86,7 +86,7 @@ export default function ColorConverter() {
           className="inline-flex items-center text-slate-400 hover:text-slate-200 transition-colors mb-8 text-sm font-medium"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Creative Toolkit
+          Back to Creative Tools
         </Link>
 
         {/* Header */}

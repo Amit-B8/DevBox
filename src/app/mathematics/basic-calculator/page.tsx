@@ -7,10 +7,6 @@ import { ArrowLeft, Calculator } from 'lucide-react';
 export default function BasicCalculator() {
   const [input, setInput] = useState('');
 
-  const handleChange = (value: string) => {
-    setInput(value);
-  };
-
   const calculate = () => {
     try {
       const sanitized = input.replace(/×/g, '*').replace(/÷/g, '/');

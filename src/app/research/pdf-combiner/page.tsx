@@ -93,7 +93,7 @@ export default function PdfCombiner() {
           className="mb-8 inline-flex items-center text-sm font-medium text-slate-400 transition-colors hover:text-slate-200"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Research &amp; Academic Toolkit
+          Back to Research &amp; Academic Tools
         </Link>
 
         <header className="mb-8">

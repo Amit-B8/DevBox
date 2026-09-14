@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import ToolCard from '@/components/ToolCard';
-import { tools, type Tool } from '@/data/tools';
+import { tools, type Tool, formatToolCount } from '@/data/tools';
 
 type DashboardSection = {
   id: string;
@@ -175,11 +175,15 @@ export default function Home() {
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">DevBox</p>
-                <h1 className="text-lg font-semibold text-gray-100">Professional Utility Suite</h1>
+                <h1 className="text-lg font-semibold text-gray-100">Tools for Developers, Engineers, and Technical Workflows</h1>
               </div>
 
               <div className="w-full max-w-xl">
+                <label htmlFor="tool-search" className="sr-only">
+                  Search DevBox tools and categories
+                </label>
                 <input
+                  id="tool-search"
                   type="text"
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
@@ -268,7 +272,7 @@ export default function Home() {
                   </div>
 
                   <span className={`rounded-full border px-2.5 py-1 text-xs font-medium ${section.accent.badge}`}>
-                    {section.tools.length} tools
+                    {formatToolCount(section.tools.length)}
                   </span>
                 </div>
 
@@ -326,7 +330,7 @@ export default function Home() {
           <div className="rounded-2xl border border-gray-800 bg-gray-900/50 p-10 text-center">
             <p className="text-lg font-medium text-gray-200">No tools match your search.</p>
             <p className="mt-2 text-sm text-gray-400">
-              Try a specific category like “engineering”, “medical”, or a tool name such as “ROI".
+              Try a specific category like &ldquo;engineering&rdquo;, &ldquo;medical&rdquo;, or a tool name such as &ldquo;ROI&rdquo;.
             </p>
           </div>
         )}

@@ -49,7 +49,7 @@ export default function ROICalculator() {
           className="inline-flex items-center text-slate-400 hover:text-slate-200 transition-colors mb-8 text-sm font-medium"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Finance Toolkit
+          Back to Finance Tools
         </Link>
 
         {/* Header */}
@@ -143,6 +143,9 @@ export default function ROICalculator() {
 
           {/* Examples Sidebar */}
           <div className="space-y-4">
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-amber-100">
+              Informational and educational use only. This calculator is not personalized financial advice, investment guidance, or a recommendation to buy or sell any asset.
+            </div>
             <h3 className="text-lg font-semibold text-gray-100">Example Scenarios</h3>
             <div className="space-y-3">
               {examples.map((example, idx) => (

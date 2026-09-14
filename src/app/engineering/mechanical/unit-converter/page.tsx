@@ -67,6 +67,12 @@ export default function UnitConverter() {
     return celsius;
   };
 
+  type UnitDefinition = {
+    label: string;
+    toBase?: number;
+    special?: boolean;
+  };
+
   const handleConvert = () => {
     const value = parseFloat(inputValue);
     if (isNaN(value)) {
@@ -75,8 +81,8 @@ export default function UnitConverter() {
     }
 
     const categoryObj = unitCategories[category as keyof typeof unitCategories];
-    const fromUnitObj = categoryObj.units[fromUnit as keyof typeof categoryObj.units];
-    const toUnitObj = categoryObj.units[toUnit as keyof typeof categoryObj.units];
+    const fromUnitObj = categoryObj.units[fromUnit as keyof typeof categoryObj.units] as UnitDefinition;
+    const toUnitObj = categoryObj.units[toUnit as keyof typeof categoryObj.units] as UnitDefinition;
 
     if (!fromUnitObj || !toUnitObj) return;
 
@@ -84,8 +90,8 @@ export default function UnitConverter() {
     if (categoryObj.name === 'Temperature') {
       convertedValue = convertTemperature(value, fromUnit, toUnit);
     } else {
-      const baseValue = value * (fromUnitObj as any).toBase;
-      convertedValue = baseValue / (toUnitObj as any).toBase;
+      const baseValue = value * (fromUnitObj.toBase ?? 0);
+      convertedValue = baseValue / (toUnitObj.toBase ?? 1);
     }
 
     setResult(parseFloat(convertedValue.toFixed(6)));
@@ -218,17 +224,17 @@ export default function UnitConverter() {
                 <p className="text-4xl font-bold text-blue-400">{result}</p>
                 <p className="text-lg text-gray-400">
                   {
-                    (unitCategories[category as keyof typeof unitCategories].units[toUnit as keyof typeof currentCategory.units] as any)
+                    (unitCategories[category as keyof typeof unitCategories].units[toUnit as keyof typeof currentCategory.units] as { label: string })
                       .label
                   }
                 </p>
               </div>
               <p className="text-sm text-gray-500 mt-4">
                 {inputValue} {
-                  (unitCategories[category as keyof typeof unitCategories].units[fromUnit as keyof typeof currentCategory.units] as any)
+                  (unitCategories[category as keyof typeof unitCategories].units[fromUnit as keyof typeof currentCategory.units] as { label: string })
                     .label
                 } = {result} {
-                  (unitCategories[category as keyof typeof unitCategories].units[toUnit as keyof typeof currentCategory.units] as any)
+                  (unitCategories[category as keyof typeof unitCategories].units[toUnit as keyof typeof currentCategory.units] as { label: string })
                     .label
                 }
               </p>

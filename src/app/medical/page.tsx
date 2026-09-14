@@ -45,11 +45,15 @@ export default function MedicalHub() {
         </Link>
 
         <header className="mb-10 border-b border-gray-800 pb-8">
-          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Medical Toolkit</h1>
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Medical Tools</h1>
           <p className="text-lg text-gray-400 max-w-2xl leading-relaxed">
             Clinical calculators, dose converters, and diagnostic utilities for healthcare professionals.
           </p>
         </header>
+
+        <div className="mb-10 rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-sm text-amber-100">
+          For educational and reference purposes only. These tools are not a substitute for professional medical judgment, diagnosis, or treatment.
+        </div>
 
         <div className="space-y-10">
           {groupedTools.length > 0 ? (

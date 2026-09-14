@@ -4,29 +4,34 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Editor from '@monaco-editor/react';
 
+const defaultInputText = '{\n  "projectName": "DevBox",\n  "status": "Active"\n}';
+
 export default function JsonToMarkdown() {
-  const [mode, setMode] = useState<'j2m' | 'm2j'>('j2m');
-  const [inputText, setInputText] = useState('{\n  "projectName": "DevBox",\n  "status": "Active"\n}');
+  const [mode, setMode] = useState<'j2m' | 'm2j'>(() => {
+    if (typeof window === 'undefined') {
+      return 'j2m';
+    }
+
+    const savedMode = window.localStorage.getItem('devbox-json-md-mode');
+    return savedMode === 'm2j' ? 'm2j' : 'j2m';
+  });
+  const [inputText, setInputText] = useState(() => {
+    if (typeof window === 'undefined') {
+      return defaultInputText;
+    }
+
+    const saved = window.localStorage.getItem('devbox-json-md-input');
+    return saved || defaultInputText;
+  });
   const [outputText, setOutputText] = useState('');
   const [error, setError] = useState('');
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Load saved state
   useEffect(() => {
-    const saved = localStorage.getItem('devbox-json-md-input');
-    const savedMode = localStorage.getItem('devbox-json-md-mode');
-    if (saved) setInputText(saved);
-    if (savedMode) setMode(savedMode as 'j2m' | 'm2j');
-    setIsLoaded(true);
-  }, []);
-
-  // Save state
-  useEffect(() => {
-    if (isLoaded) {
-      localStorage.setItem('devbox-json-md-input', inputText);
-      localStorage.setItem('devbox-json-md-mode', mode);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('devbox-json-md-input', inputText);
+      window.localStorage.setItem('devbox-json-md-mode', mode);
     }
-  }, [inputText, mode, isLoaded]);
+  }, [inputText, mode]);
 
   const toggleMode = () => {
     setMode(prev => (prev === 'j2m' ? 'm2j' : 'j2m'));
@@ -50,14 +55,14 @@ export default function JsonToMarkdown() {
           markdown += `| **${key}** | \`${formattedValue}\` |\n`;
         }
         setOutputText(markdown);
-      } catch (err) {
+      } catch {
         setError('Invalid JSON format. Please check your syntax.');
       }
     } else {
       // Markdown to JSON
       try {
         const lines = inputText.split('\n');
-        const resultObj: Record<string, any> = {};
+        const resultObj: Record<string, unknown> = {};
         
         for (let line of lines) {
           line = line.trim();
@@ -90,7 +95,7 @@ export default function JsonToMarkdown() {
         }
         
         setOutputText(JSON.stringify(resultObj, null, 2));
-      } catch (err) {
+      } catch {
         setError('Failed to parse Markdown table.');
       }
     }
@@ -104,7 +109,7 @@ export default function JsonToMarkdown() {
       <div className="max-w-7xl mx-auto w-full flex-grow flex flex-col">
         
         <Link href="/engineering" className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block">
-          &larr; Back to Engineering Toolkit
+          &larr; Back to Engineering Tools
         </Link>
         
         <header className="mb-8 flex justify-between items-end">

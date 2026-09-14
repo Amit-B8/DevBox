@@ -28,7 +28,7 @@ export default function BSACalculator() {
           className="inline-flex items-center text-slate-400 hover:text-slate-200 transition-colors mb-8 text-sm font-medium"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Medical Toolkit
+          Back to Medical Tools
         </Link>
 
         <header className="mb-10 border-b border-gray-800 pb-6">
@@ -71,8 +71,8 @@ export default function BSACalculator() {
             </div>
           )}
 
-          <div className="p-5 bg-gray-900 rounded-lg border border-gray-800 text-sm text-gray-400 leading-relaxed">
-            Formula used: BSA = sqrt((height × weight) / 3600) where height is in cm and weight is in kg.
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-5 text-sm text-amber-100 leading-relaxed">
+            This calculator provides a simple reference estimate using the Mosteller formula. It should not replace professional clinical judgment or local dosing guidance.
           </div>
         </div>
       </div>

@@ -231,42 +231,49 @@ export const tools: Tool[] = [
 export const disciplineHubs: DisciplineHub[] = [
   {
     id: "engineering",
-    name: "Engineering Toolkit",
+    name: "Engineering Tools",
     slug: "engineering",
     description: "Hardware utilities, system converters, and data parsers for engineering disciplines.",
     icon: Code2,
   },
   {
+    id: "mathematics",
+    name: "Mathematics Tools",
+    slug: "mathematics",
+    description: "Arithmetic, calculus, and matrix tools for technical calculations and education.",
+    icon: Binary,
+  },
+  {
     id: "medical",
-    name: "Medical Toolkit",
+    name: "Medical Tools",
     slug: "medical",
     description: "Clinical calculators, dose converters, and diagnostic utilities for healthcare professionals.",
     icon: Shield,
   },
   {
     id: "finance",
-    name: "Finance Toolkit",
+    name: "Finance Tools",
     slug: "finance",
     description: "ROI calculators, currency conversions, and economic analysis utilities.",
     icon: Zap,
   },
   {
     id: "creative",
-    name: "Creative Toolkit",
+    name: "Creative Tools",
     slug: "creative",
     description: "Image processing, color formatting, and asset converters for design professionals.",
     icon: Palette,
   },
   {
     id: "research",
-    name: "Research & Academic Toolkit",
+    name: "Research & Academic Tools",
     slug: "research",
     description: "Citation generators, data aggregators, and document processing utilities for researchers.",
     icon: FileStack,
   },
   {
     id: "utilities",
-    name: "General Toolkit",
+    name: "Utilities Tools",
     slug: "utilities",
     description: "Everyday utilities, password generators, and secure data formatters.",
     icon: FileJson,
@@ -292,4 +299,8 @@ export function getDisciplinesWithTools(): Array<{
     name: discipline,
     tools: getToolsByDiscipline(discipline),
   }));
+}
+
+export function formatToolCount(count: number): string {
+  return `${count} ${count === 1 ? 'tool' : 'tools'}`;
 }

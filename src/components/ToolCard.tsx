@@ -10,23 +10,21 @@ interface ToolCardProps {
 
 export default function ToolCard({ title, description, href, icon: Icon }: ToolCardProps) {
   return (
-    <Link href={href}>
-      <div className="group h-full p-5 bg-gray-900/80 border border-gray-700 rounded-xl hover:border-slate-500 transition-all duration-200 cursor-pointer hover:-translate-y-0.5 shadow-sm shadow-black/20">
-        {/* Icon */}
-        <div className="mb-4 inline-flex p-2.5 rounded-lg bg-gray-800 group-hover:bg-gray-700 transition-colors duration-200">
-          <Icon className="w-6 h-6 text-slate-300 group-hover:text-slate-100 transition-colors duration-200" />
-        </div>
-
-        {/* Title */}
-        <h3 className="text-lg font-semibold text-gray-100 mb-2 group-hover:text-white transition-colors duration-200">
-          {title}
-        </h3>
-
-        {/* Description */}
-        <p className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors duration-200 leading-relaxed">
-          {description}
-        </p>
+    <Link
+      href={href}
+      className="group block h-full rounded-xl border border-gray-700 bg-gray-900/80 p-5 shadow-sm shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-500"
+    >
+      <div className="mb-4 inline-flex rounded-lg bg-gray-800 p-2.5 transition-colors duration-200 group-hover:bg-gray-700">
+        <Icon className="h-6 w-6 text-slate-300 transition-colors duration-200 group-hover:text-slate-100" />
       </div>
+
+      <h3 className="mb-2 text-lg font-semibold text-gray-100 transition-colors duration-200 group-hover:text-white">
+        {title}
+      </h3>
+
+      <p className="text-sm leading-relaxed text-gray-400 transition-colors duration-200 group-hover:text-gray-300">
+        {description}
+      </p>
     </Link>
   );
 }

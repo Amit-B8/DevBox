@@ -38,7 +38,7 @@ export default function IOLPowerCalculator() {
           className="inline-flex items-center text-slate-400 hover:text-slate-200 transition-colors mb-8 text-sm font-medium"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Medical Toolkit
+          Back to Medical Tools
         </Link>
 
         <header className="mb-10 border-b border-gray-800 pb-6">
@@ -114,8 +114,8 @@ export default function IOLPowerCalculator() {
             </div>
           )}
 
-          <div className="p-5 bg-gray-900 rounded-lg border border-gray-800 text-sm text-gray-400 leading-relaxed">
-            This calculator uses a simplified clinical estimate and should be interpreted as a research-oriented approximation rather than a validated surgical planning tool.
+          <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 p-5 text-sm text-amber-100 leading-relaxed">
+            This calculator is for educational and research-oriented estimation only. It is not a validated clinical planning tool and should not replace professional ophthalmic judgment.
           </div>
         </div>
       </div>
