@@ -79,8 +79,23 @@ export default function PasswordGenerator() {
   const [includeSymbols, setIncludeSymbols] = useState(true);
 
   const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState(false);
+  const [includeOwnText, setIncludeOwnText] = useState(false);
+  const [ownText, setOwnText] = useState('');
+  const prefix = includeOwnText ? ownText : '';
+  const randomLength = length - Array.from(prefix).length;
+  const groupCount = [includeUppercase, includeLowercase, includeNumbers, includeSymbols].filter(Boolean).length;
+  const textError = randomLength < Math.max(1, groupCount)
+    ? `Shorten your text or increase the length to leave room for at least ${Math.max(1, groupCount)} random characters.`
+    : '';
 
   const generatePassword = useCallback(() => {
+    setCopyError(false);
+    if (textError) {
+      setPassword('');
+      setCopied(false);
+      return;
+    }
     const characterGroups: string[] = [];
 
     if (includeLowercase) {
@@ -105,12 +120,14 @@ export default function PasswordGenerator() {
       return;
     }
 
-    const newPassword = createPassword(length, characterGroups);
+    const newPassword = prefix + createPassword(randomLength, characterGroups);
 
     setPassword(newPassword);
     setCopied(false);
   }, [
-    length,
+    prefix,
+    randomLength,
+    textError,
     includeUppercase,
     includeLowercase,
     includeNumbers,
@@ -122,12 +139,20 @@ export default function PasswordGenerator() {
    * the length or any character option changes.
    */
   useEffect(() => {
+    // Browser-only randomness must run after hydration, including when options change.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     generatePassword();
   }, [generatePassword]);
 
+  useEffect(() => {
+    if (!copied) return;
+    const timeout = setTimeout(() => setCopied(false), 2000);
+    return () => clearTimeout(timeout);
+  }, [copied]);
+
   const handleCopy = async () => {
     if (
-      !password ||
+      textError || !password ||
       password === EMPTY_SELECTION_MESSAGE
     ) {
       return;
@@ -137,63 +162,130 @@ export default function PasswordGenerator() {
       await navigator.clipboard.writeText(password);
 
       setCopied(true);
-
-      setTimeout(() => {
-        setCopied(false);
-      }, 2000);
+      setCopyError(false);
     } catch {
       setCopied(false);
+      setCopyError(true);
     }
   };
 
   return (
-    <main className="min-h-screen p-8 bg-gray-950 text-white flex flex-col">
+    <main className="min-h-screen px-4 py-8 sm:px-8 bg-gray-950 text-white flex flex-col">
       <div className="max-w-3xl mx-auto w-full flex-grow flex flex-col">
 
         <Link
           href="/utilities"
           className="text-blue-400 hover:text-blue-300 text-sm mb-6 inline-block"
         >
-          &larr; Back to Utilities Tools
+            &larr; All utilities
         </Link>
 
-        <header className="mb-8">
+        <header className="mb-5">
           <h1 className="text-3xl font-bold tracking-tight">
             Secure Password Generator
           </h1>
 
           <p className="text-gray-400 mt-1">
-            Generate strong, random passwords instantly in your browser.
+            Create a random password, choose your options, and copy it in one click.
+          </p>
+          <p className="text-sm text-emerald-400 mt-3">
+            Free to use. No sign-up. Generated in your browser.
           </p>
         </header>
 
-        <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 md:p-8 shadow-xl mb-6">
+        <div className="bg-gray-900 border border-gray-800 rounded-xl p-4 sm:p-6 md:p-8 shadow-xl mb-6">
 
           {/* Password Display */}
-          <div className="relative mb-8">
-            <div className="w-full bg-gray-800 border border-gray-600 rounded-lg p-4 pr-24 text-xl md:text-2xl font-mono text-emerald-400 break-all min-h-[4rem] flex items-center">
-              {password}
-            </div>
+          <div className="mb-8">
+            <label htmlFor="generated-password" className="block text-sm font-medium text-gray-300 mb-2">
+              Your password
+            </label>
+            <textarea
+              id="generated-password"
+              readOnly
+              spellCheck={false}
+              rows={2}
+              value={textError || password === EMPTY_SELECTION_MESSAGE ? '' : password}
+              placeholder="Your password will appear here"
+              onFocus={(event) => event.currentTarget.select()}
+              className="block w-full resize-none bg-gray-800 border border-gray-600 rounded-lg p-4 text-xl md:text-2xl font-mono text-emerald-400 break-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+            />
 
+            <div className="mt-3 grid grid-cols-1 min-[360px]:grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={generatePassword}
+              disabled={!!textError || groupCount === 0}
+              className="w-full bg-blue-600 hover:bg-blue-500 border border-blue-500 text-white px-3 py-3 rounded-md font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+            >
+              Generate password
+            </button>
             <button
               type="button"
               onClick={handleCopy}
               disabled={
-                !password ||
+                !!textError || !password ||
                 password === EMPTY_SELECTION_MESSAGE
               }
-              className={`absolute right-2 top-2 bottom-2 px-4 rounded-md font-semibold transition-all ${
+              className={`w-full py-3 px-4 rounded-md font-semibold transition-all focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 ${
                 copied
                   ? 'bg-emerald-600 text-white border border-emerald-500'
-                  : 'bg-blue-600 hover:bg-blue-500 text-white border border-blue-500'
+                  : 'bg-gray-800 hover:bg-gray-700 text-white border border-gray-600'
               } disabled:opacity-50 disabled:cursor-not-allowed`}
             >
-              {copied ? 'Copied!' : 'Copy'}
+              {copied ? 'Copied!' : 'Copy password'}
             </button>
+            </div>
+            <p role="status" className="mt-2 text-sm text-gray-300">
+              {textError ? textError : password === EMPTY_SELECTION_MESSAGE
+                ? 'Choose at least one character type below to generate a password.'
+                : copyError
+                  ? 'Copy was blocked by your browser. Select the password above and copy it manually.'
+                  : copied
+                    ? 'Password copied to clipboard.'
+                    : 'Options below update your password automatically.'}
+            </p>
           </div>
 
           {/* Controls */}
           <div className="space-y-6">
+
+            <div>
+              <button
+                type="button"
+                aria-expanded={includeOwnText}
+                aria-controls="own-text-options"
+                onClick={() => setIncludeOwnText(!includeOwnText)}
+                className="text-sm font-semibold text-blue-400 hover:text-blue-300 py-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+              >
+                {includeOwnText ? 'Remove your own text' : '+ Include your own text'}
+              </button>
+              {includeOwnText && (
+                <div id="own-text-options" className="mt-2 space-y-2">
+                  <label htmlFor="own-text" className="block text-sm text-gray-300">Start the password with</label>
+                  <input
+                    id="own-text"
+                    type="text"
+                    value={ownText}
+                    onChange={(event) => setOwnText(event.target.value)}
+                    maxLength={64}
+                    autoComplete="off"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    placeholder="e.g. car08"
+                    aria-describedby="own-text-help own-text-count"
+                    aria-invalid={!!textError}
+                    className="w-full rounded-lg border border-gray-600 bg-gray-800 px-3 py-3 font-mono text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+                  />
+                  <p id="own-text-count" className="text-sm text-gray-300">
+                    {textError || `${Array.from(prefix).length} typed + ${randomLength} random = ${length} characters.`}
+                  </p>
+                  <p id="own-text-help" className="text-sm text-gray-400">
+                    We keep your text at the start and add random characters using the options below. Fully random passwords are harder to guess.
+                  </p>
+                </div>
+              )}
+            </div>
 
             {/* Length Slider */}
             <div>
@@ -290,14 +382,10 @@ export default function PasswordGenerator() {
           </div>
         </div>
 
-        {/* Generate Button */}
-        <button
-          type="button"
-          onClick={generatePassword}
-          className="w-full bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:border-blue-500 active:scale-[0.98]"
-        >
-          🔄 Generate New Password
-        </button>
+
+        <p className="mt-5 text-sm text-gray-400 text-center">
+          Use a different password for each account and save it in your password manager.
+        </p>
 
       </div>
     </main>
