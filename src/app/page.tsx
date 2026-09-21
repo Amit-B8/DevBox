@@ -77,7 +77,7 @@ const dashboardSections: DashboardSection[] = [
       badge: 'border-emerald-600 bg-emerald-900/50 text-emerald-200',
       dot: 'bg-emerald-400',
     },
-    toolIds: ['roi-calculator'],
+    toolIds: ['student-budget', 'roi-calculator'],
   },
 ];
 

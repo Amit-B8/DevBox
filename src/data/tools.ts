@@ -196,6 +196,14 @@ export const tools: Tool[] = [
 
   // ==================== FINANCE & ECONOMICS ====================
   {
+    id: "student-budget",
+    name: "Student Budget Calculator",
+    description: "Plan monthly income, rent, groceries, tuition, and savings to see what is left or spot a shortfall.",
+    discipline: "Finance & Economics",
+    href: "/finance/student-budget",
+    icon: TrendingUp,
+  },
+  {
     id: "roi-calculator",
     name: "ROI Calculator",
     description: "Calculate return on investment percentage from initial investment and final value.",

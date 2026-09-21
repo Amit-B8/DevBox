@@ -24,7 +24,7 @@ export default function FinanceHub() {
         <header className="mb-16 border-b border-gray-800 pb-8">
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight mb-3">Finance Tools</h1>
           <p className="text-lg text-gray-400 max-w-2xl">
-            ROI calculators, currency conversions, and economic analysis utilities.
+            Plan a student budget or calculate return on investment with simple finance tools.
           </p>
         </header>
 
