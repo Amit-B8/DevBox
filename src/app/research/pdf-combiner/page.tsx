@@ -20,16 +20,17 @@ export default function PdfCombiner() {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [orderAnnouncement, setOrderAnnouncement] = useState('');
+  const [isFileDragOver, setIsFileDragOver] = useState(false);
+  const fileDragDepth = useRef(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(event.target.files ?? []);
-    event.target.value = '';
+  const addFiles = (selectedFiles: File[]) => {
+    if (isMerging) return;
     setError('');
 
     if (selectedFiles.length === 0) return;
-    if (selectedFiles.length > MAX_FILES) {
-      setError(`Select up to ${MAX_FILES} PDF files at a time.`);
+    if (files.length + selectedFiles.length > MAX_FILES) {
+      setError(`You can combine up to ${MAX_FILES} PDFs. You already have ${files.length} selected; add fewer files or remove some first.`);
       return;
     }
 
@@ -41,7 +42,12 @@ export default function PdfCombiner() {
       return;
     }
 
-    setFiles(selectedFiles);
+    setFiles((currentFiles) => [...currentFiles, ...selectedFiles]);
+  };
+
+  const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
+    addFiles(Array.from(event.target.files ?? []));
+    event.target.value = '';
   };
 
   const removeFile = (indexToRemove: number) => {
@@ -123,11 +129,34 @@ export default function PdfCombiner() {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isMerging}
-            className="flex min-h-36 w-full flex-col items-center justify-center rounded-lg border border-dashed border-gray-700 bg-gray-950 px-6 py-8 text-center transition-colors hover:border-slate-500 hover:bg-gray-800"
+            onDragEnter={(event) => {
+              if (!event.dataTransfer.types.includes('Files')) return;
+              event.preventDefault();
+              if (isMerging) return;
+              fileDragDepth.current += 1;
+              setIsFileDragOver(true);
+            }}
+            onDragOver={(event) => {
+              if (!event.dataTransfer.types.includes('Files')) return;
+              event.preventDefault();
+              event.dataTransfer.dropEffect = isMerging ? 'none' : 'copy';
+            }}
+            onDragLeave={(event) => {
+              if (!event.dataTransfer.types.includes('Files')) return;
+              fileDragDepth.current = Math.max(0, fileDragDepth.current - 1);
+              if (fileDragDepth.current === 0) setIsFileDragOver(false);
+            }}
+            onDrop={(event) => {
+              event.preventDefault();
+              fileDragDepth.current = 0;
+              setIsFileDragOver(false);
+              addFiles(Array.from(event.dataTransfer.files));
+            }}
+            className={`flex min-h-36 w-full flex-col items-center justify-center rounded-lg border border-dashed px-6 py-8 text-center transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${isFileDragOver ? 'border-slate-300 bg-gray-800 ring-2 ring-slate-400' : 'border-gray-700 bg-gray-950 hover:border-slate-500 hover:bg-gray-800'}`}
           >
             <Upload className="mb-3 h-7 w-7 text-slate-300" />
-            <span className="font-semibold text-gray-100">Choose PDF files</span>
-            <span className="mt-1 text-sm text-gray-500">Select 1 to 10 files</span>
+            <span className="font-semibold text-gray-100">{isFileDragOver ? 'Drop PDFs to add them' : 'Drag & drop PDFs here, or click to browse'}</span>
+            <span className="mt-1 text-sm text-gray-400">Add up to 10 files total. New PDFs are added to the end of the list.</span>
           </button>
           <input
             ref={fileInputRef}
