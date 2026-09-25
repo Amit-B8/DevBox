@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useRef, useState } from 'react';
 import Link from 'next/link';
-import { AlertCircle, ArrowLeft, FileStack, Merge, Trash2, Upload } from 'lucide-react';
+import { AlertCircle, ArrowDown, ArrowLeft, ArrowUp, FileStack, GripVertical, Merge, Trash2, Upload } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 
 const MAX_FILES = 10;
@@ -17,6 +17,9 @@ export default function PdfCombiner() {
   const [files, setFiles] = useState<File[]>([]);
   const [error, setError] = useState('');
   const [isMerging, setIsMerging] = useState(false);
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
+  const [dropIndex, setDropIndex] = useState<number | null>(null);
+  const [orderAnnouncement, setOrderAnnouncement] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelection = (event: ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +47,17 @@ export default function PdfCombiner() {
   const removeFile = (indexToRemove: number) => {
     setFiles((currentFiles) => currentFiles.filter((_, index) => index !== indexToRemove));
     setError('');
+  };
+
+  const moveFile = (from: number, to: number) => {
+    if (isMerging || from === to || to < 0 || to >= files.length) return;
+    setFiles((currentFiles) => {
+      const reordered = [...currentFiles];
+      const [moved] = reordered.splice(from, 1);
+      reordered.splice(to, 0, moved);
+      return reordered;
+    });
+    setOrderAnnouncement(`${files[from].name} moved to position ${to + 1} of ${files.length}.`);
   };
 
   const mergeFiles = async () => {
@@ -108,6 +122,7 @@ export default function PdfCombiner() {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
+            disabled={isMerging}
             className="flex min-h-36 w-full flex-col items-center justify-center rounded-lg border border-dashed border-gray-700 bg-gray-950 px-6 py-8 text-center transition-colors hover:border-slate-500 hover:bg-gray-800"
           >
             <Upload className="mb-3 h-7 w-7 text-slate-300" />
@@ -119,6 +134,7 @@ export default function PdfCombiner() {
             type="file"
             accept="application/pdf,.pdf"
             multiple
+            disabled={isMerging}
             onChange={handleFileSelection}
             className="hidden"
           />
@@ -126,19 +142,67 @@ export default function PdfCombiner() {
           {files.length > 0 && (
             <div className="mt-6">
               <div className="mb-3 flex items-center justify-between gap-4">
-                <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-400">Selected files</h2>
+                <h2 className="text-sm font-semibold uppercase tracking-wider text-gray-400">PDF order</h2>
                 <span className="text-sm text-gray-500">{files.length} / {MAX_FILES}</span>
               </div>
+              <p className="mb-4 text-sm text-gray-400">Drag files or use the arrows to reorder. PDFs combine from top to bottom.</p>
+              <p role="status" className="sr-only">{orderAnnouncement}</p>
               <ol className="space-y-2">
                 {files.map((file, index) => (
-                  <li key={`${file.name}-${file.lastModified}-${index}`} className="flex items-center gap-3 rounded-lg border border-gray-800 bg-gray-950 px-4 py-3">
+                  <li
+                    key={index}
+                    draggable={!isMerging && files.length > 1}
+                    onDragStart={(event) => {
+                      event.dataTransfer.effectAllowed = 'move';
+                      event.dataTransfer.setData('text/plain', String(index));
+                      setDraggedIndex(index);
+                    }}
+                    onDragOver={(event) => {
+                      if (draggedIndex === null || isMerging) return;
+                      event.preventDefault();
+                      event.dataTransfer.dropEffect = 'move';
+                      setDropIndex(index);
+                    }}
+                    onDrop={(event) => {
+                      event.preventDefault();
+                      if (draggedIndex !== null) moveFile(draggedIndex, index);
+                      setDraggedIndex(null);
+                      setDropIndex(null);
+                    }}
+                    onDragEnd={() => {
+                      setDraggedIndex(null);
+                      setDropIndex(null);
+                    }}
+                    className={`flex flex-wrap items-center gap-2 rounded-lg border bg-gray-950 px-3 py-3 sm:gap-3 sm:px-4 ${dropIndex === index && draggedIndex !== index ? 'border-slate-400 ring-1 ring-slate-400' : 'border-gray-800'} ${draggedIndex === index ? 'opacity-50' : ''} ${!isMerging && files.length > 1 ? 'cursor-grab active:cursor-grabbing' : ''}`}
+                  >
+                    <GripVertical aria-hidden="true" className="h-4 w-4 shrink-0 text-gray-500" />
                     <span className="w-6 shrink-0 text-center font-mono text-sm text-gray-500">{index + 1}</span>
-                    <FileStack className="h-5 w-5 shrink-0 text-slate-400" />
                     <span className="min-w-0 flex-1 truncate text-sm text-gray-200" title={file.name}>{file.name}</span>
-                    <span className="shrink-0 text-xs text-gray-500">{formatFileSize(file.size)}</span>
+                    <span className="hidden shrink-0 text-xs text-gray-500 sm:inline">{formatFileSize(file.size)}</span>
+                    <button
+                      type="button"
+                      onClick={() => moveFile(index, index - 1)}
+                      disabled={isMerging || index === 0}
+                      aria-label={`Move ${file.name} up`}
+                      title="Move up"
+                      className="rounded-md p-2 text-gray-400 transition-colors hover:bg-gray-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                    >
+                      <ArrowUp className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => moveFile(index, index + 1)}
+                      disabled={isMerging || index === files.length - 1}
+                      aria-label={`Move ${file.name} down`}
+                      title="Move down"
+                      className="rounded-md p-2 text-gray-400 transition-colors hover:bg-gray-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-30"
+                    >
+                      <ArrowDown className="h-4 w-4" />
+                    </button>
                     <button
                       type="button"
                       onClick={() => removeFile(index)}
+                      disabled={isMerging}
                       aria-label={`Remove ${file.name}`}
                       title="Remove file"
                       className="rounded-md p-1.5 text-gray-500 transition-colors hover:bg-gray-800 hover:text-red-400"
