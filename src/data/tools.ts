@@ -132,6 +132,14 @@ export const tools: Tool[] = [
 
   // ==================== GENERAL UTILITIES ====================
   {
+    id: "text-analyzer",
+    name: "Text Analyzer",
+    description: "Count words and characters, estimate reading time, and clean up or convert text case.",
+    discipline: "General Utilities",
+    href: "/utilities/text-analyzer",
+    icon: FileJson,
+  },
+  {
     id: "image-converter",
     name: "Image Converter",
     description: "Convert between PNG, JPG, WebP formats and resize images with precision.",

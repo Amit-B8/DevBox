@@ -29,7 +29,7 @@ const dashboardSections: DashboardSection[] = [
       badge: 'border-slate-600 bg-slate-800 text-slate-300',
       dot: 'bg-slate-400',
     },
-    toolIds: ['data-anonymizer', 'image-converter', 'password-generator', 'pdf-combiner', 'color-converter'],
+    toolIds: ['text-analyzer', 'data-anonymizer', 'image-converter', 'password-generator', 'pdf-combiner', 'color-converter'],
   },
   {
     id: 'engineering',
