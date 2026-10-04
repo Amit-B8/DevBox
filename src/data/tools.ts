@@ -220,6 +220,31 @@ export const tools: Tool[] = [
     icon: TrendingUp,
   },
 
+  {
+    id: "loan-calculator",
+    name: "Loan Calculator",
+    description: "Calculate monthly loan payments, total interest, and savings from extra payments.",
+    discipline: "Finance & Economics",
+    href: "/finance/loan-calculator",
+    icon: TrendingUp,
+  },
+  {
+    id: "compound-interest",
+    name: "Compound Interest Calculator",
+    description: "Project savings growth with monthly contributions and compound interest.",
+    discipline: "Finance & Economics",
+    href: "/finance/compound-interest",
+    icon: TrendingUp,
+  },
+  {
+    id: "subscription-tracker",
+    name: "Subscription Tracker",
+    description: "Track recurring costs, upcoming renewals, and potential cancellation savings.",
+    discipline: "Finance & Economics",
+    href: "/finance/subscription-tracker",
+    icon: TrendingUp,
+  },
+
   // ==================== CREATIVE & DESIGN ====================
   {
     id: "color-converter",
