@@ -130,6 +130,31 @@ export const tools: Tool[] = [
     icon: Binary,
   },
 
+  {
+    id: "percentage-calculator",
+    name: "Percentage Calculator",
+    description: "Calculate percentages, ratios, and percentage increases or decreases.",
+    discipline: "Mathematics",
+    href: "/mathematics/percentage-calculator",
+    icon: Binary,
+  },
+  {
+    id: "quadratic-solver",
+    name: "Quadratic Equation Solver",
+    description: "Solve quadratic equations with real or complex roots, including linear special cases.",
+    discipline: "Mathematics",
+    href: "/mathematics/quadratic-solver",
+    icon: Binary,
+  },
+  {
+    id: "statistics-calculator",
+    name: "Statistics Calculator",
+    description: "Find mean, median, range, variance, and standard deviation for a set of numbers.",
+    discipline: "Mathematics",
+    href: "/mathematics/statistics-calculator",
+    icon: Binary,
+  },
+
   // ==================== GENERAL UTILITIES ====================
   {
     id: "text-analyzer",
@@ -281,7 +306,7 @@ export const disciplineHubs: DisciplineHub[] = [
     id: "mathematics",
     name: "Mathematics Tools",
     slug: "mathematics",
-    description: "Arithmetic, calculus, and matrix tools for technical calculations and education.",
+    description: "Arithmetic, percentages, equations, and statistics for everyday calculations and education.",
     icon: Binary,
   },
   {

@@ -46,14 +46,14 @@ const dashboardSections: DashboardSection[] = [
   {
     id: 'mathematics',
     label: 'Mathematics',
-    description: 'Core math utilities for quick arithmetic, calculus exploration, and matrix calculations.',
+    description: 'Math utilities for quick arithmetic, percentages, quadratic equations, and statistics.',
     accent: {
       border: 'border-blue-700',
       header: 'border-blue-900/70 bg-blue-950/40',
       badge: 'border-blue-600 bg-blue-900/50 text-blue-200',
       dot: 'bg-blue-400',
     },
-    toolIds: ['basic-calculator', 'derivative-integral', 'matrix-math'],
+    toolIds: tools.filter((tool) => tool.discipline === 'Mathematics').map((tool) => tool.id),
   },
   {
     id: 'medical',

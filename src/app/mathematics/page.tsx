@@ -23,7 +23,7 @@ export default function MathematicsHub() {
         <header className="mb-16 border-b border-gray-800 pb-8">
           <h1 className="mb-3 text-4xl font-bold tracking-tight sm:text-5xl">Mathematics Tools</h1>
           <p className="max-w-2xl text-lg text-gray-400">
-            Arithmetic, calculus, and matrix tools for quick calculations, technical exploration, and education.
+            Arithmetic, percentages, equations, and statistics for quick calculations and education.
           </p>
         </header>
 
