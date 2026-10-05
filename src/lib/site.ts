@@ -1,5 +1,5 @@
 export const siteConfig = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.devbox.tools',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://devbox-bem.pages.dev',
   siteName: 'DevBox',
   defaultDescription:
     'DevBox is a searchable utility suite for developers, engineers, medical, finance, and research workflows.',
