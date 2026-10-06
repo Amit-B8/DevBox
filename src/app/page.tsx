@@ -169,16 +169,16 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-gray-950 text-white">
-      <header className="sticky top-0 z-30 border-b border-gray-800 bg-gray-950/85 backdrop-blur-sm">
+      <header className="top-0 z-30 border-b border-gray-800 bg-gray-950/85 backdrop-blur-sm md:sticky">
         <div className="mx-auto max-w-6xl px-5 py-4 sm:px-6">
           <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-400">DevBox</p>
                 <h1 className="text-lg font-semibold text-gray-100">Tools for Developers, Engineers, and Technical Workflows</h1>
               </div>
 
-              <div className="relative w-full max-w-xl">
+              <div className="relative w-full md:max-w-xl">
                 <label htmlFor="tool-search" className="sr-only">
                   Search DevBox tools and categories
                 </label>
