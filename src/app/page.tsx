@@ -178,7 +178,7 @@ export default function Home() {
                 <h1 className="text-lg font-semibold text-gray-100">Tools for Developers, Engineers, and Technical Workflows</h1>
               </div>
 
-              <div className="w-full max-w-xl">
+              <div className="relative w-full max-w-xl">
                 <label htmlFor="tool-search" className="sr-only">
                   Search DevBox tools and categories
                 </label>
@@ -187,9 +187,18 @@ export default function Home() {
                   type="text"
                   value={searchQuery}
                   onChange={(event) => setSearchQuery(event.target.value)}
+                  onKeyDown={(event) => { if (event.key === 'Escape') setSearchQuery(''); }}
                   placeholder="Search tools, categories, or disciplines..."
-                  className="w-full border border-gray-700 bg-gray-900 px-4 py-2.5 text-sm text-white placeholder:text-gray-500 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/40"
+                  className="w-full rounded-lg border border-gray-700 bg-gray-900 py-2.5 pl-4 pr-16 text-sm text-white placeholder:text-gray-500 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/40"
                 />
+                {searchQuery && (
+                  <button type="button" aria-label="Clear search" onClick={() => {
+                    setSearchQuery('');
+                    document.getElementById('tool-search')?.focus();
+                  }} className="absolute inset-y-0 right-1 my-1 rounded px-2 text-xs text-slate-400 hover:bg-gray-800 hover:text-white">
+                    Clear
+                  </button>
+                )}
               </div>
             </div>
 
