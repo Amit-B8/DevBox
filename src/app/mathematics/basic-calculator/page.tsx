@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { ArrowLeft, Calculator } from 'lucide-react';
+import { ArrowLeft, Calculator, Delete } from 'lucide-react';
 
 export default function BasicCalculator() {
   const [input, setInput] = useState('');
@@ -43,7 +43,7 @@ export default function BasicCalculator() {
         </header>
 
         <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-          <div className="mb-4 rounded-lg border border-gray-700 bg-gray-950 p-4 text-right text-2xl font-semibold text-white">
+          <div aria-live="polite" aria-label="Calculator display" className="mb-4 overflow-x-auto rounded-lg border border-gray-700 bg-gray-950 p-4 text-right font-mono text-2xl font-semibold tabular-nums text-white">
             {input || '0'}
           </div>
 
@@ -61,9 +61,18 @@ export default function BasicCalculator() {
             <button
               type="button"
               onClick={clearInput}
-              className="col-span-2 rounded-lg border border-gray-700 bg-gray-800 px-3 py-3 text-lg font-medium text-gray-100 transition-colors hover:bg-gray-700"
+              className="rounded-lg border border-gray-700 bg-gray-800 px-3 py-3 text-lg font-medium text-gray-100 transition-colors hover:bg-gray-700"
             >
               Clear
+            </button>
+            <button
+              type="button"
+              aria-label="Delete last character"
+              title="Delete last character"
+              onClick={() => setInput((current) => current === 'Error' ? '' : current.slice(0, -1))}
+              className="flex items-center justify-center rounded-lg border border-gray-700 bg-gray-800 px-3 py-3 text-gray-100 transition-colors hover:bg-gray-700"
+            >
+              <Delete aria-hidden="true" className="h-5 w-5" />
             </button>
             <button
               type="button"
