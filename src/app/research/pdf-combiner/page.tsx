@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { AlertCircle, ArrowDown, ArrowLeft, ArrowUp, FileStack, GripVertical, Merge, Trash2, Upload } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
 
-const MAX_FILES = 10;
+const MAX_FILES = 30;
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -121,7 +121,7 @@ export default function PdfCombiner() {
             <FileStack className="h-7 w-7" />
           </div>
           <h1 className="text-3xl font-bold tracking-tight">PDF Combiner</h1>
-          <p className="mt-2 text-gray-400">Combine up to 10 PDF documents into one ordered file, entirely in your browser.</p>
+          <p className="mt-2 text-gray-400">Combine up to {MAX_FILES} PDF documents into one ordered file, entirely in your browser.</p>
         </header>
 
         <section className="rounded-xl border border-gray-800 bg-gray-900 p-6 shadow-xl sm:p-8">
@@ -156,7 +156,7 @@ export default function PdfCombiner() {
           >
             <Upload className="mb-3 h-7 w-7 text-slate-300" />
             <span className="font-semibold text-gray-100">{isFileDragOver ? 'Drop PDFs to add them' : 'Drag & drop PDFs here, or click to browse'}</span>
-            <span className="mt-1 text-sm text-gray-400">Add up to 10 files total. New PDFs are added to the end of the list.</span>
+            <span className="mt-1 text-sm text-gray-400">Add up to {MAX_FILES} files total. New PDFs are added to the end of the list.</span>
           </button>
           <input
             ref={fileInputRef}

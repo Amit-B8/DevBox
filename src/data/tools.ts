@@ -284,7 +284,7 @@ export const tools: Tool[] = [
   {
     id: "pdf-combiner",
     name: "PDF Combiner",
-    description: "Combine up to 10 PDF documents into a single ordered file in your browser.",
+    description: "Combine up to 30 PDF documents into a single ordered file in your browser.",
     discipline: "Research & Academic",
     href: "/research/pdf-combiner",
     icon: FileStack,
