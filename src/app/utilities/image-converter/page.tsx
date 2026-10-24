@@ -100,6 +100,17 @@ export default function ImageConverter() {
           {/* Hidden Canvas for Image Processing */}
           <canvas ref={canvasRef} className="hidden" />
 
+          {/* Image Preview */}
+          {selectedImage && (
+            <div className="flex justify-center mb-6">
+              <img
+                src={selectedImage}
+                alt="Preview of uploaded PNG"
+                className="max-h-64 max-w-full rounded-lg border border-gray-700 object-contain"
+              />
+            </div>
+          )}
+
           {/* Conversion Actions */}
           {selectedImage && (
             <div className="flex flex-col items-center border-t border-gray-800 pt-8 mt-4">
