@@ -261,6 +261,36 @@ export default function PdfCombiner() {
             {isMerging ? 'Merging PDFs...' : 'Merge & Download'}
           </button>
         </section>
+        <section aria-labelledby="combine-pdfs-guide" className="mt-10 space-y-6 text-sm leading-relaxed text-gray-400">
+          <div>
+            <h2 id="combine-pdfs-guide" className="mb-2 text-xl font-semibold text-gray-100">Combine PDF files into one document</h2>
+            <p>PDF Combiner joins the pages from multiple PDFs into a single downloadable file. Use it to bring reports, notes, or scanned documents together in the order you choose.</p>
+          </div>
+          <div>
+            <h2 className="mb-2 text-lg font-semibold text-gray-100">How to merge PDFs</h2>
+            <ol className="list-decimal space-y-1 pl-5">
+              <li>Drag your PDF files into the tool above, or click to browse.</li>
+              <li>Drag files or use the arrow buttons to arrange them from top to bottom.</li>
+              <li>Click Merge &amp; Download to save your combined PDF.</li>
+            </ol>
+            <p className="mt-3"><strong className="font-medium text-gray-200">Example:</strong> Add a cover sheet, a report, and an appendix in that order to download one complete document.</p>
+          </div>
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-gray-100">Frequently asked questions</h2>
+            <div>
+              <h3 className="font-medium text-gray-200">Are my PDFs uploaded to a server?</h3>
+              <p>No. The tool reads and merges your files locally in your browser.</p>
+            </div>
+            <div>
+              <h3 className="font-medium text-gray-200">How many PDF files can I combine?</h3>
+              <p>You can add up to {MAX_FILES} PDFs. Large documents may take longer or exceed your browser&apos;s available memory.</p>
+            </div>
+            <div>
+              <h3 className="font-medium text-gray-200">Can I merge password-protected PDFs?</h3>
+              <p>Password-protected PDFs are not supported. Use an unlocked copy that you have permission to access.</p>
+            </div>
+          </div>
+        </section>
       </div>
     </main>
   );
