@@ -7,6 +7,7 @@ export default function ImageConverter() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [convertedImage, setConvertedImage] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>('converted-image');
+  const [fileSize, setFileSize] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,6 +24,7 @@ export default function ImageConverter() {
 
       const reader = new FileReader();
       reader.onload = (event) => {
+        setFileSize(file.size);
         setSelectedImage(event.target?.result as string);
         setConvertedImage(null); // Reset when a new image is uploaded
       };
@@ -114,7 +116,12 @@ export default function ImageConverter() {
           {/* Conversion Actions */}
           {selectedImage && (
             <div className="flex flex-col items-center border-t border-gray-800 pt-8 mt-4">
-              <p className="text-gray-300 mb-4 font-mono text-sm">File loaded: {fileName}.png</p>
+              <p className="text-gray-300 mb-4 break-all text-center font-mono text-sm">
+                File loaded: {fileName}.png
+                <span className="ml-2 whitespace-nowrap text-gray-400">
+                  ({fileSize < 1024 ? `${fileSize} B` : fileSize < 1024 * 1024 ? `${(fileSize / 1024).toFixed(1)} KB` : `${(fileSize / (1024 * 1024)).toFixed(1)} MB`})
+                </span>
+              </p>
               
               {!convertedImage ? (
                 <button 
