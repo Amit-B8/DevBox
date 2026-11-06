@@ -70,7 +70,7 @@ const dashboardSections: DashboardSection[] = [
   {
     id: 'finance',
     label: 'Finance',
-    description: 'Business performance and investment analysis tools for quick decisions.',
+    description: 'Budgeting, loan, investment, and subscription tools for everyday financial planning.',
     accent: {
       border: 'border-emerald-700',
       header: 'border-emerald-900/70 bg-emerald-950/40',
@@ -227,7 +227,7 @@ export default function Home() {
                 Welcome to DevBox.
               </h2>
               <p className="mt-4 max-w-2xl text-base text-gray-400 leading-relaxed">
-                Find the right utility in seconds with one app-like workspace for engineering, medical tools, finance, and everyday productivity.
+                Find the right utility in seconds with tools for engineering, mathematics, healthcare, finance, and everyday productivity.
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">
