@@ -189,10 +189,11 @@ export default function Home() {
                   onChange={(event) => setSearchQuery(event.target.value)}
                   onKeyDown={(event) => { if (event.key === 'Escape') setSearchQuery(''); }}
                   placeholder="Search tools, categories, or disciplines..."
+                  title="Tip: press Escape while searching to clear your search."
                   className="w-full rounded-lg border border-gray-700 bg-gray-900 py-2.5 pl-4 pr-16 text-sm text-white placeholder:text-gray-500 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/40"
                 />
                 {searchQuery && (
-                  <button type="button" aria-label="Clear search" onClick={() => {
+                  <button type="button" aria-label="Clear search" title="Clear search (Escape)" onClick={() => {
                     setSearchQuery('');
                     document.getElementById('tool-search')?.focus();
                   }} className="absolute inset-y-0 right-1 my-1 rounded px-2 text-xs text-slate-400 hover:bg-gray-800 hover:text-white">
