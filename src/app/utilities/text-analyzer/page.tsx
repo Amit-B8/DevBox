@@ -47,6 +47,18 @@ export default function TextAnalyzer() {
     }
   }
 
+  function downloadText() {
+    const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'devbox-text.txt';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setStatus('Text download started.');
+  }
+
   return (
     <main className="min-h-screen bg-gray-950 px-4 py-8 text-white sm:px-8">
       <div className="mx-auto max-w-5xl">
@@ -83,6 +95,7 @@ export default function TextAnalyzer() {
             className="block w-full resize-y rounded-lg border border-gray-600 bg-gray-950 p-4 leading-relaxed text-gray-100 placeholder:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
           />
           <div className="mt-4 flex flex-wrap gap-2">
+            <button type="button" className={buttonClass} disabled={!text} onClick={downloadText}>Download .txt</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.toUpperCase(), 'Converted to uppercase.')}>UPPERCASE</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.toLowerCase(), 'Converted to lowercase.')}>lowercase</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.split(/\r?\n/u).map((line) => line.replace(/[^\S\r\n]+/gu, ' ').trim()).join('\n').trim(), 'Extra spaces removed. Line breaks preserved.')}>Clean up spaces</button>
