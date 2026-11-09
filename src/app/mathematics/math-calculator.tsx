@@ -45,6 +45,14 @@ export default function MathCalculator({ kind }: { kind: 'percentage' | 'quadrat
         >
           Load example
         </button>
+        <button
+          type="button"
+          disabled={!dataset}
+          onClick={() => setDataset('')}
+          className="mb-3 ml-2 rounded-lg border border-gray-700 bg-gray-800 px-3 py-2 text-sm font-medium text-gray-200 transition-colors hover:bg-gray-700 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Clear numbers
+        </button>
         <label className="block text-sm text-gray-300">Numbers (separated by commas, spaces, or semicolons)
         <textarea className={inputClass} rows={5} value={dataset} onChange={event => setDataset(event.target.value)} aria-describedby="data-help" />
         <span id="data-help" className="mt-2 block text-gray-400">Up to 10,000 numbers. Use a period for decimals; do not use thousands separators.</span>
