@@ -339,6 +339,16 @@ export default function Home() {
         ) : (
           <div className="rounded-2xl border border-gray-800 bg-gray-900/50 p-10 text-center">
             <p className="text-lg font-medium text-gray-200">No tools match your search.</p>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchQuery('');
+                document.getElementById('tool-search')?.focus();
+              }}
+              className="mt-4 rounded-lg border border-gray-600 bg-gray-800 px-4 py-2 text-sm font-medium text-gray-200 transition-colors hover:bg-gray-700 hover:text-white"
+            >
+              Show all tools
+            </button>
             <p className="mt-2 text-sm text-gray-400">
               Try a specific category like &ldquo;engineering&rdquo;, &ldquo;medical&rdquo;, or a tool name such as &ldquo;ROI&rdquo;.
             </p>
