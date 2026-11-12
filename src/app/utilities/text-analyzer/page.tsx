@@ -10,6 +10,7 @@ export default function TextAnalyzer() {
   const [previousText, setPreviousText] = useState<string | null>(null);
   const [status, setStatus] = useState('');
   const revision = useRef(0);
+  const textInputRef = useRef<HTMLTextAreaElement>(null);
   const stats = useMemo(() => {
     const words = text.match(/\S+/gu)?.length ?? 0;
     return [
@@ -82,6 +83,7 @@ export default function TextAnalyzer() {
           <label htmlFor="analyzer-text" className="mb-2 block text-sm font-medium text-gray-300">Your text</label>
           <textarea
             id="analyzer-text"
+            ref={textInputRef}
             value={text}
             onChange={(event) => {
               updateText(event.target.value);
@@ -95,6 +97,11 @@ export default function TextAnalyzer() {
             className="block w-full resize-y rounded-lg border border-gray-600 bg-gray-950 p-4 leading-relaxed text-gray-100 placeholder:text-gray-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
           />
           <div className="mt-4 flex flex-wrap gap-2">
+            <button type="button" className={buttonClass} disabled={!text} onClick={() => {
+              textInputRef.current?.focus();
+              textInputRef.current?.select();
+              setStatus('All text selected.');
+            }}>Select all</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={downloadText}>Download .txt</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.toUpperCase(), 'Converted to uppercase.')}>UPPERCASE</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.toLowerCase(), 'Converted to lowercase.')}>lowercase</button>
