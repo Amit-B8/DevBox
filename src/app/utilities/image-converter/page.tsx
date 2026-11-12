@@ -8,6 +8,7 @@ export default function ImageConverter() {
   const [convertedImage, setConvertedImage] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>('converted-image');
   const [fileSize, setFileSize] = useState(0);
+  const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +25,7 @@ export default function ImageConverter() {
 
       const reader = new FileReader();
       reader.onload = (event) => {
+        setImageDimensions(null);
         setFileSize(file.size);
         setSelectedImage(event.target?.result as string);
         setConvertedImage(null); // Reset when a new image is uploaded
@@ -106,7 +108,12 @@ export default function ImageConverter() {
           {selectedImage && (
             <div className="flex justify-center mb-6">
               <img
+                key={selectedImage}
                 src={selectedImage}
+                onLoad={(event) => setImageDimensions({
+                  width: event.currentTarget.naturalWidth,
+                  height: event.currentTarget.naturalHeight,
+                })}
                 alt="Preview of uploaded PNG"
                 className="max-h-64 max-w-full rounded-lg border border-gray-700 object-contain"
               />
@@ -122,6 +129,11 @@ export default function ImageConverter() {
                   ({fileSize < 1024 ? `${fileSize} B` : fileSize < 1024 * 1024 ? `${(fileSize / 1024).toFixed(1)} KB` : `${(fileSize / (1024 * 1024)).toFixed(1)} MB`})
                 </span>
               </p>
+              {imageDimensions && (
+                <p className="mb-4 text-sm text-gray-400">
+                  Dimensions: {imageDimensions.width} &times; {imageDimensions.height} pixels
+                </p>
+              )}
               
               {!convertedImage ? (
                 <button 
