@@ -215,6 +215,9 @@ export default function Home() {
                 </button>
               ))}
             </nav>
+            <p role="status" aria-atomic="true" className="text-sm text-gray-400">
+              {searchQuery.trim() && `${formatToolCount(filteredSections.reduce((count, section) => count + section.tools.length, 0))} found`}
+            </p>
           </div>
         </div>
       </header>
