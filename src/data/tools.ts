@@ -246,6 +246,14 @@ export const tools: Tool[] = [
   },
 
   {
+    id: "mortgage-calculator",
+    name: "Mortgage Calculator",
+    description: "Estimate monthly mortgage payments with taxes, insurance, HOA, PMI, and yearly amortization.",
+    discipline: "Finance & Economics",
+    href: "/finance/mortgage-calculator",
+    icon: TrendingUp,
+  },
+  {
     id: "loan-calculator",
     name: "Loan Calculator",
     description: "Calculate monthly loan payments, total interest, and savings from extra payments.",
