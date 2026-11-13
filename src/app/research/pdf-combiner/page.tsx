@@ -207,7 +207,7 @@ export default function PdfCombiner() {
                     <GripVertical aria-hidden="true" className="h-4 w-4 shrink-0 text-gray-500" />
                     <span className="w-6 shrink-0 text-center font-mono text-sm text-gray-500">{index + 1}</span>
                     <span className="min-w-0 flex-1 truncate text-sm text-gray-200" title={file.name}>{file.name}</span>
-                    <span className="hidden shrink-0 text-xs text-gray-500 sm:inline">{formatFileSize(file.size)}</span>
+                    <span className="shrink-0 text-xs text-gray-400">{formatFileSize(file.size)}</span>
                     <button
                       type="button"
                       onClick={() => moveFile(index, index - 1)}
