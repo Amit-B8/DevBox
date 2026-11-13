@@ -305,6 +305,8 @@ export default function PasswordGenerator() {
               <input
                 id="password-length"
                 type="range"
+                aria-valuetext={`${length} characters`}
+                aria-describedby="password-length-help"
                 min="8"
                 max="64"
                 value={length}
@@ -313,6 +315,9 @@ export default function PasswordGenerator() {
                 }
                 className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
               />
+              <p id="password-length-help" className="mt-2 text-xs text-gray-400">
+                Choose 8–64 characters. This includes any text you add yourself.
+              </p>
             </div>
 
             {/* Toggles */}
