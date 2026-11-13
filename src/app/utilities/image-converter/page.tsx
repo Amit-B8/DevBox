@@ -8,6 +8,9 @@ export default function ImageConverter() {
   const [convertedImage, setConvertedImage] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>('converted-image');
   const [fileSize, setFileSize] = useState(0);
+  const [quality, setQuality] = useState(90);
+  const [convertedSize, setConvertedSize] = useState(0);
+  const conversionVersion = useRef(0);
   const [imageDimensions, setImageDimensions] = useState<{ width: number; height: number } | null>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -25,6 +28,7 @@ export default function ImageConverter() {
 
       const reader = new FileReader();
       reader.onload = (event) => {
+        conversionVersion.current += 1;
         setImageDimensions(null);
         setFileSize(file.size);
         setSelectedImage(event.target?.result as string);
@@ -37,11 +41,13 @@ export default function ImageConverter() {
   const handleConvert = () => {
     if (!selectedImage || !canvasRef.current) return;
 
+    const version = ++conversionVersion.current;
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     const img = new Image();
     
     img.onload = () => {
+      if (version !== conversionVersion.current) return;
       canvas.width = img.width;
       canvas.height = img.height;
       
@@ -55,7 +61,10 @@ export default function ImageConverter() {
         ctx.drawImage(img, 0, 0);
         
         // Convert canvas to JPG data URL
-        const jpgUrl = canvas.toDataURL('image/jpeg', 0.9); // 0.9 is the quality setting
+        const jpgUrl = canvas.toDataURL('image/jpeg', quality / 100);
+        const base64 = jpgUrl.slice(jpgUrl.indexOf(',') + 1);
+        const padding = base64.endsWith('==') ? 2 : base64.endsWith('=') ? 1 : 0;
+        setConvertedSize((base64.length * 3) / 4 - padding);
         setConvertedImage(jpgUrl);
       }
     };
@@ -135,6 +144,35 @@ export default function ImageConverter() {
                 </p>
               )}
               
+              <div className="mb-6 w-full max-w-md rounded-lg border border-gray-700 bg-gray-950 p-4">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <label htmlFor="jpg-quality" className="text-sm font-medium text-gray-200">JPG quality</label>
+                  <output htmlFor="jpg-quality" className="text-sm font-semibold tabular-nums text-blue-300">{quality}%</output>
+                </div>
+                <input
+                  id="jpg-quality"
+                  type="range"
+                  min={10}
+                  max={100}
+                  step={5}
+                  value={quality}
+                  aria-valuetext={`${quality} percent`}
+                  aria-describedby="jpg-quality-help"
+                  onChange={(event) => {
+                    conversionVersion.current += 1;
+                    setQuality(Number(event.target.value));
+                    setConvertedImage(null);
+                  }}
+                  className="w-full cursor-pointer accent-blue-500"
+                />
+                <div aria-hidden="true" className="mt-1 flex justify-between text-xs text-gray-400">
+                  <span>Smaller file</span><span>Higher quality</span>
+                </div>
+                <p id="jpg-quality-help" className="mt-3 text-xs leading-relaxed text-gray-400">
+                  Lower quality usually reduces file size. After adjusting, click Convert to JPG to apply it. Image dimensions stay the same.
+                </p>
+              </div>
+
               {!convertedImage ? (
                 <button 
                   onClick={handleConvert}
@@ -145,7 +183,10 @@ export default function ImageConverter() {
               ) : (
                 <div className="flex flex-col items-center w-full">
                   <div className="bg-emerald-900/20 border border-emerald-500/50 rounded-lg p-4 mb-6 text-emerald-400 text-center w-full">
-                    Conversion successful! 
+                    <p role="status">Conversion successful at {quality}% quality!</p>
+                    <p className="mt-1 text-sm">
+                      JPG size: {convertedSize < 1024 ? `${convertedSize} B` : convertedSize < 1024 * 1024 ? `${(convertedSize / 1024).toFixed(1)} KB` : `${(convertedSize / (1024 * 1024)).toFixed(1)} MB`}
+                    </p>
                   </div>
                   <a 
                     href={convertedImage} 
@@ -156,6 +197,7 @@ export default function ImageConverter() {
                   </a>                  
                   <button 
                     onClick={() => {
+                      conversionVersion.current += 1;
                       setSelectedImage(null);
                       setConvertedImage(null);
                     }}
