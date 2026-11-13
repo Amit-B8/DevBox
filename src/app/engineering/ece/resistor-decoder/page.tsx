@@ -37,14 +37,14 @@ export default function ResistorDecoder() {
   const [band3, setBand3] = useState('red');
   const [tolerance, setTolerance] = useState('gold');
 
-  const toleranceValues: { [key: string]: string } = {
-    gold: '±5%',
-    silver: '±10%',
-    brown: '±1%',
-    red: '±2%',
-    green: '±0.5%',
-    blue: '±0.25%',
-    violet: '±0.1%',
+  const toleranceValues: { [key: string]: number } = {
+    gold: 5,
+    silver: 10,
+    brown: 1,
+    red: 2,
+    green: 0.5,
+    blue: 0.25,
+    violet: 0.1,
   };
 
   const calculateResistance = () => {
@@ -72,7 +72,10 @@ export default function ResistorDecoder() {
   };
 
   const resistance = calculateResistance();
-  const toleranceValue = toleranceValues[tolerance] || '±5%';
+  const tolerancePercent = toleranceValues[tolerance] ?? 5;
+  const toleranceValue = `±${tolerancePercent}%`;
+  const deviation = resistance * tolerancePercent / 100;
+  const formatBound = (value: number) => value.toLocaleString('en-US', { maximumFractionDigits: 3 });
 
   const examples = [
     { name: 'Common 1kΩ', band1: 'brown', band2: 'black', band3: 'red', tolerance: 'gold' },
@@ -205,7 +208,7 @@ export default function ResistorDecoder() {
                 >
                   {Object.entries(toleranceValues).map(([color, value]) => (
                     <option key={color} value={color}>
-                      {color.charAt(0).toUpperCase() + color.slice(1)} ({value})
+                      {color.charAt(0).toUpperCase() + color.slice(1)} (±{value}%)
                     </option>
                   ))}
                 </select>
@@ -218,6 +221,13 @@ export default function ResistorDecoder() {
               <div className="space-y-4">
                 <div>
                   <p className="text-4xl font-bold text-blue-400">{formatResistance(resistance)}</p>
+                </div>
+                <div aria-live="polite" aria-atomic="true" className="rounded-lg bg-gray-950 p-3">
+                  <p className="mb-1 text-xs text-gray-400">Resistance range (minimum to maximum)</p>
+                  <p className="break-words font-mono text-sm text-gray-200">
+                    {formatBound(resistance - deviation)} &Omega; &ndash; {formatBound(resistance + deviation)} &Omega;
+                  </p>
+                  <p className="mt-1 text-xs text-gray-500">Based on the selected {toleranceValue} tolerance.</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-700">
                   <div>
