@@ -97,11 +97,12 @@ export default function BaseConverter() {
           
           {/* Decimal Input */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+            <label htmlFor="base-decimal" className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
               Decimal (Base 10)
             </label>
             <input
               type="text"
+              id="base-decimal"
               value={values.dec}
               onChange={(e) => handleInputChange('dec', e.target.value)}
               className="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-lg font-mono focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition"
@@ -111,11 +112,12 @@ export default function BaseConverter() {
 
           {/* Hexadecimal Input */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+            <label htmlFor="base-hexadecimal" className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
               Hexadecimal (Base 16)
             </label>
             <input
               type="text"
+              id="base-hexadecimal"
               value={values.hex}
               onChange={(e) => handleInputChange('hex', e.target.value)}
               className="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-lg font-mono focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition"
@@ -125,11 +127,12 @@ export default function BaseConverter() {
 
           {/* Binary Input */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+            <label htmlFor="base-binary" className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
               Binary (Base 2)
             </label>
             <input
               type="text"
+              id="base-binary"
               value={values.bin}
               onChange={(e) => handleInputChange('bin', e.target.value)}
               className="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-lg font-mono focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition"
@@ -139,11 +142,12 @@ export default function BaseConverter() {
 
           {/* Octal Input */}
           <div>
-            <label className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
+            <label htmlFor="base-octal" className="block text-sm font-semibold text-gray-400 mb-2 uppercase tracking-wider">
               Octal (Base 8)
             </label>
             <input
               type="text"
+              id="base-octal"
               value={values.oct}
               onChange={(e) => handleInputChange('oct', e.target.value)}
               className="w-full bg-gray-950 border border-gray-700 rounded-lg px-4 py-3 text-lg font-mono focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition"
