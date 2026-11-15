@@ -164,7 +164,10 @@ export default function UnitConverter() {
               <input
                 type="number"
                 value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  setResult(null);
+                }}
                 placeholder="Enter value"
                 className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
@@ -178,7 +181,10 @@ export default function UnitConverter() {
                 </label>
                 <select
                   value={fromUnit}
-                  onChange={(e) => setFromUnit(e.target.value)}
+                  onChange={(e) => {
+                    setFromUnit(e.target.value);
+                    setResult(null);
+                  }}
                   className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {availableUnits.map((unit) => (
@@ -195,7 +201,10 @@ export default function UnitConverter() {
                 </label>
                 <select
                   value={toUnit}
-                  onChange={(e) => setToUnit(e.target.value)}
+                  onChange={(e) => {
+                    setToUnit(e.target.value);
+                    setResult(null);
+                  }}
                   className="w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   {availableUnits.map((unit) => (
