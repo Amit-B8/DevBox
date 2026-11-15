@@ -302,6 +302,24 @@ export default function PasswordGenerator() {
                 </span>
               </div>
 
+              <div role="group" aria-label="Quick password lengths" className="flex flex-wrap gap-2 mb-3">
+                {[16, 24, 32].map((preset) => (
+                  <button
+                    key={preset}
+                    type="button"
+                    aria-pressed={length === preset}
+                    onClick={() => setLength(preset)}
+                    className={`min-h-11 rounded-md border px-3 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400 ${
+                      length === preset
+                        ? 'border-blue-500 bg-blue-600 text-white'
+                        : 'border-gray-600 bg-gray-800 text-gray-300 hover:bg-gray-700'
+                    }`}
+                  >
+                    {preset} characters
+                  </button>
+                ))}
+              </div>
+
               <input
                 id="password-length"
                 type="range"
