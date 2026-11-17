@@ -12,7 +12,7 @@ export default function ToolCard({ title, description, href, icon: Icon }: ToolC
   return (
     <Link
       href={href}
-      className="group block h-full rounded-xl border border-gray-700 bg-gray-900/80 p-5 shadow-sm shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-500"
+      className="group block h-full rounded-xl border border-gray-700 bg-gray-900/80 p-5 shadow-sm shadow-black/20 transition-all duration-200 hover:-translate-y-0.5 hover:border-slate-500 focus-visible:border-blue-400 focus-visible:bg-gray-800"
     >
       <div className="mb-4 flex items-start justify-between gap-4">
       <div className="inline-flex rounded-lg bg-gray-800 p-2.5 transition-colors duration-200 group-hover:bg-gray-700">
