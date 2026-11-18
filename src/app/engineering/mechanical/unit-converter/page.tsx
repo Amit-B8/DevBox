@@ -216,6 +216,18 @@ export default function UnitConverter() {
               </div>
             </div>
 
+            <button
+              type="button"
+              onClick={() => {
+                setFromUnit(toUnit);
+                setToUnit(fromUnit);
+                setResult(null);
+              }}
+              className="min-h-11 px-4 py-2 bg-gray-800 border border-gray-700 hover:border-blue-400 rounded text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-400"
+            >
+              Swap units
+            </button>
+
             {/* Convert Button */}
             <button
               onClick={handleConvert}
