@@ -42,9 +42,9 @@ export default function ColorConverter() {
   };
 
   // Handle HEX input change
-  const handleHexChange = (value: string) => {
+  const handleHexChange = (value: string, mode = conversionMode) => {
     setHexInput(value);
-    if (conversionMode === 'hex-to-rgb') {
+    if (mode === 'hex-to-rgb') {
       const rgb = hexToRgb(value);
       if (rgb) {
         setRInput(rgb.r.toString());
@@ -55,11 +55,11 @@ export default function ColorConverter() {
   };
 
   // Handle RGB input changes
-  const handleRgbChange = (r: string, g: string, b: string) => {
+  const handleRgbChange = (r: string, g: string, b: string, mode = conversionMode) => {
     setRInput(r);
     setGInput(g);
     setBInput(b);
-    if (conversionMode === 'rgb-to-hex') {
+    if (mode === 'rgb-to-hex') {
       const rNum = parseInt(r) || 0;
       const gNum = parseInt(g) || 0;
       const bNum = parseInt(b) || 0;
@@ -114,7 +114,10 @@ export default function ColorConverter() {
                   name="mode"
                   value="hex-to-rgb"
                   checked={conversionMode === 'hex-to-rgb'}
-                  onChange={() => setConversionMode('hex-to-rgb')}
+                  onChange={() => {
+                    setConversionMode('hex-to-rgb');
+                    handleHexChange(hexInput, 'hex-to-rgb');
+                  }}
                   className="w-4 h-4 text-blue-500 cursor-pointer"
                 />
                 <span className="ml-2 text-sm">HEX → RGB</span>
@@ -125,7 +128,10 @@ export default function ColorConverter() {
                   name="mode"
                   value="rgb-to-hex"
                   checked={conversionMode === 'rgb-to-hex'}
-                  onChange={() => setConversionMode('rgb-to-hex')}
+                  onChange={() => {
+                    setConversionMode('rgb-to-hex');
+                    handleRgbChange(rInput, gInput, bInput, 'rgb-to-hex');
+                  }}
                   className="w-4 h-4 text-blue-500 cursor-pointer"
                 />
                 <span className="ml-2 text-sm">RGB → HEX</span>
@@ -134,15 +140,21 @@ export default function ColorConverter() {
 
             {/* Input Section */}
             <div className="p-6 bg-gray-900 rounded-lg border border-gray-800 space-y-4">
+              <p id="conversion-help" className="text-sm text-gray-400">
+                {conversionMode === 'hex-to-rgb'
+                  ? 'Edit the HEX code. RGB values update automatically and are read-only.'
+                  : 'Edit the RGB values. The HEX code updates automatically and is read-only.'}
+              </p>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">HEX Code</label>
                 <div className="flex gap-2">
                   <input
                     type="text"
                     value={hexInput}
+                    readOnly={conversionMode === 'rgb-to-hex'}
                     onChange={(e) => handleHexChange(e.target.value)}
                     placeholder="#FF6B6B"
-                    aria-describedby="hex-format-help"
+                    aria-describedby="conversion-help hex-format-help"
                     className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
                   />
                   <div
@@ -166,6 +178,8 @@ export default function ColorConverter() {
                       min="0"
                       max="255"
                       value={rInput}
+                      readOnly={conversionMode === 'hex-to-rgb'}
+                      aria-describedby="conversion-help"
                       onChange={(e) => handleRgbChange(e.target.value, gInput, bInput)}
                       className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
@@ -177,6 +191,8 @@ export default function ColorConverter() {
                       min="0"
                       max="255"
                       value={gInput}
+                      readOnly={conversionMode === 'hex-to-rgb'}
+                      aria-describedby="conversion-help"
                       onChange={(e) => handleRgbChange(rInput, e.target.value, bInput)}
                       className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
@@ -188,6 +204,8 @@ export default function ColorConverter() {
                       min="0"
                       max="255"
                       value={bInput}
+                      readOnly={conversionMode === 'hex-to-rgb'}
+                      aria-describedby="conversion-help"
                       onChange={(e) => handleRgbChange(rInput, gInput, e.target.value)}
                       className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
@@ -223,7 +241,7 @@ export default function ColorConverter() {
               {colorPalettes.map((color, idx) => (
                 <button
                   key={idx}
-                  onClick={() => handleHexChange(color.hex)}
+                  onClick={() => handleHexChange(color.hex, 'hex-to-rgb')}
                   className="w-full text-left p-3 bg-gray-900 hover:bg-gray-800 rounded-lg border border-gray-800 hover:border-gray-700 transition-all flex items-center gap-3"
                 >
                   <div
