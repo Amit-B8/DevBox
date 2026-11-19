@@ -3,8 +3,8 @@ import { ArrowLeft, TrendingUp } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 export const panel = 'p-6 bg-gray-900 rounded-lg border border-gray-800';
-export const input = 'w-full px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500';
-export const button = 'px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded font-medium transition-colors';
+export const input = 'w-full min-h-11 px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white focus:outline-none focus:ring-2 focus:ring-blue-500';
+export const button = 'min-h-11 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded font-medium transition-colors';
 export const money = (value: number) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
 
 export function FinanceTool({ title, description, children }: { title: string; description: string; children: ReactNode }) {
