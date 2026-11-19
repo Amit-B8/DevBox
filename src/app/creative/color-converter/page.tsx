@@ -13,7 +13,11 @@ export default function ColorConverter() {
 
   // Convert HEX to RGB
   const hexToRgb = (hex: string): { r: number; g: number; b: number } | null => {
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    const expandedHex = hex.trim().replace(
+      /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+      '#$1$1$2$2$3$3',
+    );
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(expandedHex);
     return result
       ? {
           r: parseInt(result[1], 16),
@@ -138,14 +142,19 @@ export default function ColorConverter() {
                     value={hexInput}
                     onChange={(e) => handleHexChange(e.target.value)}
                     placeholder="#FF6B6B"
+                    aria-describedby="hex-format-help"
                     className="flex-1 px-4 py-2 bg-gray-800 border border-gray-700 rounded text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent font-mono"
                   />
                   <div
                     className="w-12 h-10 rounded border-2 border-gray-700"
-                    style={{ backgroundColor: hexInput }}
+                    style={{ backgroundColor: `rgb(${currentRgb.r}, ${currentRgb.g}, ${currentRgb.b})` }}
                   />
                 </div>
               </div>
+
+              <p id="hex-format-help" className="text-sm text-gray-400">
+                Enter 3 or 6 HEX digits, with or without # (for example, #0f8 or #00ff88).
+              </p>
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-2">RGB Values</label>
@@ -193,7 +202,7 @@ export default function ColorConverter() {
               <div className="flex items-end gap-4">
                 <div
                   className="w-24 h-24 rounded border-2 border-gray-700"
-                  style={{ backgroundColor: hexInput }}
+                  style={{ backgroundColor: `rgb(${currentRgb.r}, ${currentRgb.g}, ${currentRgb.b})` }}
                 />
                 <div className="flex-1 space-y-2">
                   <div className="p-2 bg-gray-800 rounded font-mono text-sm">
