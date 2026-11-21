@@ -4,6 +4,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import Link from 'next/link';
 import { AlertCircle, ArrowDown, ArrowLeft, ArrowUp, FileStack, GripVertical, Merge, Trash2, Upload } from 'lucide-react';
 import { PDFDocument } from 'pdf-lib';
+import { trackToolUsage } from '@/lib/backend-client';
 
 const MAX_FILES = 30;
 
@@ -98,6 +99,7 @@ export default function PdfCombiner() {
       downloadLink.click();
       downloadLink.remove();
       URL.revokeObjectURL(downloadUrl);
+      trackToolUsage('pdf-combiner', 'convert');
     } catch {
       setError('One of the selected files could not be read as a valid PDF.');
     } finally {
