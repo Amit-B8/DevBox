@@ -6,24 +6,38 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "dev:api": "node --env-file-if-exists=.env --import tsx backend/index.ts",
+    "build:backend": "esbuild backend/index.ts backend/migrate.ts backend/retention.ts --bundle --platform=node --target=node22 --format=cjs --external:pg-native --outdir=backend-dist --out-extension:.js=.cjs",
+    "start:api": "node --env-file-if-exists=.env backend-dist/index.cjs",
+    "test:backend": "tsx --test backend/server.test.ts",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node --env-file-if-exists=.env --import tsx backend/migrate.ts",
+    "db:retention": "node --env-file-if-exists=.env --import tsx backend/retention.ts"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.7.0",
+    "drizzle-orm": "^0.45.4",
     "lucide-react": "^1.37.0",
     "next": "16.2.12",
     "pdf-lib": "^1.17.1",
+    "pg": "^8.23.1",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^20",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.11",
+    "esbuild": "^0.28.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

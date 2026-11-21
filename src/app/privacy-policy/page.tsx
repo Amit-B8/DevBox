@@ -15,14 +15,26 @@ export default function PrivacyPolicyPage() {
 
         <div className="space-y-6 text-gray-300">
           <p>
-            DevBox is a static utility website. We do not require account creation and we do not intentionally collect personal
-            data from visitors beyond basic server logs that may be provided by the hosting environment.
+            DevBox does not require an account. Tool inputs and outputs continue to be processed in your browser.
+            Our optional usage reporting is disabled by default. When enabled, it sends only a tool identifier and action;
+            the service adds a timestamp. It does not send passwords, JWT contents, documents, or medical or financial inputs.
           </p>
 
           <p>
             Some tools may store preferences locally in the browser using standard browser storage such as localStorage for a better
-            user experience. That data stays on the device and is not transmitted to us unless your browser or hosting provider
-            automatically sends it as part of normal web traffic.
+            user experience. These saved preferences and tool values are not sent by our usage reporting.
+          </p>
+
+          <p>
+            When the feedback form is enabled and you submit it, we store your category, message, submission time,
+            and an optional tool identifier. Do not include personal or sensitive information. Hosting and abuse-protection
+            services may process connection information such as IP addresses; our application does not store IP addresses in the database.
+          </p>
+
+          <p>
+            Usage reporting uses no tracking cookies or persistent visitor identifiers and respects browser Do Not Track
+            and Global Privacy Control signals. Before enabling collection, the deployment must configure retention cleanup
+            for usage records older than 30 days and feedback older than 180 days, including an appropriate backup retention policy.
           </p>
 
           <p>

@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Editor from '@monaco-editor/react';
+import { trackToolUsage } from '@/lib/backend-client';
 
 const defaultInputText = '{\n  "projectName": "DevBox",\n  "status": "Active"\n}';
 
@@ -55,6 +56,7 @@ export default function JsonToMarkdown() {
           markdown += `| **${key}** | \`${formattedValue}\` |\n`;
         }
         setOutputText(markdown);
+        trackToolUsage('json-markdown', 'convert');
       } catch {
         setError('Invalid JSON format. Please check your syntax.');
       }
@@ -95,6 +97,7 @@ export default function JsonToMarkdown() {
         }
         
         setOutputText(JSON.stringify(resultObj, null, 2));
+        trackToolUsage('json-markdown', 'convert');
       } catch {
         setError('Failed to parse Markdown table.');
       }
