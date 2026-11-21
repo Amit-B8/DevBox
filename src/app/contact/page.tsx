@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import FeedbackForm from './feedback-form';
 
 export default function ContactPage() {
   return (
@@ -23,6 +24,7 @@ export default function ContactPage() {
             qualified professional guidance.
           </p>
         </div>
+        <FeedbackForm />
       </div>
     </main>
   );
