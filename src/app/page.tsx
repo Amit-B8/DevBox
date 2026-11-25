@@ -1,8 +1,9 @@
-﻿'use client';
+'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import ToolCard from '@/components/ToolCard';
 import { tools, type Tool, formatToolCount } from '@/data/tools';
+import { Star } from 'lucide-react';
 
 type DashboardSection = {
   id: string;
@@ -124,16 +125,89 @@ const getToolMatchScore = (tool: Tool, query: string) => {
 const dashboardStats = {
   categories: dashboardSections.length,
   tools: tools.length,
-  medicalTools: dashboardSections.find((section) => section.id === 'medical')?.toolIds.length ?? 0,
-  financeTools: dashboardSections.find((section) => section.id === 'finance')?.toolIds.length ?? 0,
 };
+
+const FAVORITES_STORAGE_KEY = 'devbox-favorite-tools';
+const knownToolIds = new Set(tools.map(tool => tool.id));
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [favoriteNotice, setFavoriteNotice] = useState('');
+
+  // Load favorites from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(FAVORITES_STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const validIds = [...new Set(parsed.filter((id): id is string => typeof id === 'string' && knownToolIds.has(id)))];
+          // Read browser storage after hydration so server and initial client output match.
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setFavoriteIds(validIds);
+        }
+      }
+    } catch {
+      // Ignore localStorage errors
+    }
+  }, []);
+
+  // Global Keyboard shortcut listener (Ctrl+K / Cmd+K / '/')
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.isComposing || event.altKey) return;
+      const target = event.target as HTMLElement | null;
+      const isInputOrTextarea =
+        target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT' || target.isContentEditable);
+
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        const searchInput = document.getElementById('tool-search');
+        searchInput?.focus();
+        if (searchInput instanceof HTMLInputElement) {
+          searchInput.select();
+        }
+      } else if (event.key === '/' && !event.ctrlKey && !event.metaKey && !isInputOrTextarea) {
+        event.preventDefault();
+        const searchInput = document.getElementById('tool-search');
+        searchInput?.focus();
+        if (searchInput instanceof HTMLInputElement) {
+          searchInput.select();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  const toggleFavorite = (toolId: string) => {
+    const next = favoriteIds.includes(toolId) ? favoriteIds.filter(id => id !== toolId) : [...favoriteIds, toolId];
+    setFavoriteIds(next);
+    try {
+      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(next));
+      setFavoriteNotice('');
+    } catch {
+      setFavoriteNotice('Favorites work for this visit, but your browser could not save them.');
+    }
+  };
+
+  const toolMap = useMemo(() => new Map<string, Tool>(tools.map((t) => [t.id, t])), []);
+
+  const favoriteTools = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase();
+    const favs = favoriteIds.map((id) => toolMap.get(id)).filter((tool): tool is Tool => Boolean(tool));
+
+    if (!normalizedQuery) {
+      return favs;
+    }
+
+    return favs.filter((tool) => getToolMatchScore(tool, normalizedQuery) > 0);
+  }, [favoriteIds, toolMap, searchQuery]);
 
   const filteredSections = useMemo(() => {
     const normalizedQuery = searchQuery.trim().toLowerCase();
-    const toolMap = new Map<string, Tool>(tools.map((tool) => [tool.id, tool]));
 
     return dashboardSections
       .map((section) => {
@@ -158,7 +232,12 @@ export default function Home() {
         };
       })
       .filter((section) => section.visible);
-  }, [searchQuery]);
+  }, [searchQuery, toolMap]);
+
+  const matchingToolCount = new Set([
+    ...filteredSections.flatMap(section => section.tools.map(tool => tool.id)),
+    ...favoriteTools.map(tool => tool.id),
+  ]).size;
 
   const scrollToSection = (sectionId: string) => {
     document.getElementById(sectionId)?.scrollIntoView({
@@ -189,21 +268,43 @@ export default function Home() {
                   onChange={(event) => setSearchQuery(event.target.value)}
                   onKeyDown={(event) => { if (event.key === 'Escape') setSearchQuery(''); }}
                   placeholder="Search tools, categories, or disciplines..."
-                  title="Tip: press Escape while searching to clear your search."
-                  className="w-full rounded-lg border border-gray-700 bg-gray-900 py-2.5 pl-4 pr-16 text-sm text-white placeholder:text-gray-500 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/40"
+                  title="Press Ctrl+K (Cmd+K on Mac) or / to search; Escape clears your search."
+                  className="w-full rounded-lg border border-gray-700 bg-gray-900 py-2.5 pl-4 pr-24 text-sm text-white placeholder:text-gray-500 focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/40"
                 />
-                {searchQuery && (
-                  <button type="button" aria-label="Clear search" title="Clear search (Escape)" onClick={() => {
-                    setSearchQuery('');
-                    document.getElementById('tool-search')?.focus();
-                  }} className="absolute inset-y-0 right-1 my-1 rounded px-2 text-xs text-slate-400 hover:bg-gray-800 hover:text-white">
-                    Clear
-                  </button>
-                )}
+                <div className="absolute inset-y-0 right-1.5 flex items-center gap-1.5">
+                  {searchQuery ? (
+                    <button
+                      type="button"
+                      aria-label="Clear search"
+                      title="Clear search (Escape)"
+                      onClick={() => {
+                        setSearchQuery('');
+                        document.getElementById('tool-search')?.focus();
+                      }}
+                      className="rounded px-2 py-1 text-xs text-slate-400 hover:bg-gray-800 hover:text-white transition-colors"
+                    >
+                      Clear
+                    </button>
+                  ) : (
+                    <span className="hidden items-center gap-1 rounded border border-gray-700/80 bg-gray-800/80 px-2 py-0.5 text-[10px] font-medium text-gray-400 sm:flex">
+                      <kbd className="font-mono">Ctrl</kbd> <kbd className="font-mono">K</kbd>
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
 
             <nav className="flex flex-wrap gap-2">
+              {favoriteTools.length > 0 && (
+                <button
+                  type="button"
+                  onClick={() => scrollToSection('favorites')}
+                  className="inline-flex items-center gap-1 rounded-full border border-amber-500/50 bg-amber-950/40 px-3 py-1.5 text-xs font-medium text-amber-300 transition-colors duration-200 hover:border-amber-400 hover:text-amber-200"
+                >
+                  <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+                  Favorites ({favoriteIds.length})
+                </button>
+              )}
               {dashboardSections.map((section) => (
                 <button
                   key={section.id}
@@ -216,8 +317,9 @@ export default function Home() {
               ))}
             </nav>
             <p role="status" aria-atomic="true" className="text-sm text-gray-400">
-              {searchQuery.trim() && `${formatToolCount(filteredSections.reduce((count, section) => count + section.tools.length, 0))} found`}
+              {searchQuery.trim() && `${formatToolCount(matchingToolCount)} found`}
             </p>
+            <p role="status" className="text-sm text-amber-300">{favoriteNotice}</p>
           </div>
         </div>
       </header>
@@ -231,10 +333,20 @@ export default function Home() {
                 Welcome to DevBox.
               </h2>
               <p className="mt-4 max-w-2xl text-base text-gray-400 leading-relaxed">
-                Find the right utility in seconds with tools for engineering, mathematics, healthcare, finance, and everyday productivity.
+                Find the right utility in seconds with tools for engineering, mathematics, healthcare, finance, and everyday productivity. Press <kbd className="rounded border border-gray-700 bg-gray-800 px-1.5 py-0.5 text-xs font-mono text-gray-300">Ctrl+K</kbd> to search anytime.
               </p>
 
               <div className="mt-5 flex flex-wrap gap-2">
+                {favoriteTools.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => scrollToSection('favorites')}
+                    className="inline-flex items-center gap-1 rounded-full border border-amber-600 bg-amber-950/50 px-3 py-1.5 text-xs font-medium text-amber-200 transition-colors duration-200 hover:bg-amber-900/60"
+                  >
+                    <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
+                    Favorites ({favoriteIds.length})
+                  </button>
+                )}
                 {dashboardSections.map((section) => (
                   <button
                     key={`overview-${section.id}`}
@@ -248,19 +360,69 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
               <div className="rounded-2xl border border-gray-700 bg-gray-900/70 p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-slate-400">DevBox categories</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Categories</p>
                 <p className="mt-3 text-3xl font-semibold text-white">{dashboardStats.categories}</p>
               </div>
 
               <div className="rounded-2xl border border-gray-700 bg-gray-900/70 p-4">
-                <p className="text-xs uppercase tracking-[0.18em] text-slate-400">DevBox tools</p>
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-400">Tools</p>
                 <p className="mt-3 text-3xl font-semibold text-white">{dashboardStats.tools}</p>
+              </div>
+
+              <div className="col-span-2 rounded-2xl border border-amber-700/50 bg-amber-950/20 p-4 sm:col-span-1">
+                <p className="text-xs uppercase tracking-[0.18em] text-amber-400">Favorites</p>
+                <p className="mt-3 text-3xl font-semibold text-amber-300 flex items-center gap-1">
+                  {favoriteIds.length}
+                </p>
               </div>
             </div>
           </div>
         </section>
+
+        {/* Favorites Pinned Section */}
+        {favoriteTools.length > 0 && (
+          <section
+            id="favorites"
+            className="scroll-mt-32 mb-8 overflow-hidden rounded-2xl border border-amber-700/50 bg-amber-950/10"
+          >
+            <div className="flex items-center justify-between border-b border-amber-800/40 bg-amber-950/30 px-4 py-3 sm:px-6">
+              <div className="flex items-center gap-3">
+                <Star className="h-5 w-5 fill-amber-400 text-amber-400" />
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-amber-400/80">Pinned Shortcuts</p>
+                  <h3 className="text-xl font-semibold text-amber-100">Favorites</h3>
+                </div>
+              </div>
+
+              <span className="rounded-full border border-amber-600 bg-amber-900/40 px-2.5 py-1 text-xs font-medium text-amber-200">
+                {formatToolCount(favoriteTools.length)}
+              </span>
+            </div>
+
+            <div className="px-4 py-4 sm:px-6 sm:py-6">
+              <p className="mb-5 text-sm text-amber-200/80">
+                Star a tool to keep it here. Favorites are saved in this browser, not synced across devices.
+              </p>
+
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                {favoriteTools.map((tool) => (
+                  <ToolCard
+                    key={`fav-${tool.id}`}
+                    id={tool.id}
+                    title={tool.name}
+                    description={tool.description}
+                    href={tool.href}
+                    icon={tool.icon}
+                    isFavorite={true}
+                    onToggleFavorite={toggleFavorite}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         {filteredSections.length > 0 ? (
           filteredSections.map((section) => {
@@ -305,10 +467,13 @@ export default function Home() {
                               {group.tools.map((tool) => (
                                 <ToolCard
                                   key={tool.id}
+                                  id={tool.id}
                                   title={tool.name}
                                   description={tool.description}
                                   href={tool.href}
                                   icon={tool.icon}
+                                  isFavorite={favoriteIds.includes(tool.id)}
+                                  onToggleFavorite={toggleFavorite}
                                 />
                               ))}
                             </div>
@@ -320,10 +485,13 @@ export default function Home() {
                         {section.tools.map((tool) => (
                           <ToolCard
                             key={tool.id}
+                            id={tool.id}
                             title={tool.name}
                             description={tool.description}
                             href={tool.href}
                             icon={tool.icon}
+                            isFavorite={favoriteIds.includes(tool.id)}
+                            onToggleFavorite={toggleFavorite}
                           />
                         ))}
                       </div>
@@ -340,22 +508,24 @@ export default function Home() {
             );
           })
         ) : (
-          <div className="rounded-2xl border border-gray-800 bg-gray-900/50 p-10 text-center">
-            <p className="text-lg font-medium text-gray-200">No tools match your search.</p>
-            <button
-              type="button"
-              onClick={() => {
-                setSearchQuery('');
-                document.getElementById('tool-search')?.focus();
-              }}
-              className="mt-4 rounded-lg border border-gray-600 bg-gray-800 px-4 py-2 text-sm font-medium text-gray-200 transition-colors hover:bg-gray-700 hover:text-white"
-            >
-              Show all tools
-            </button>
-            <p className="mt-2 text-sm text-gray-400">
-              Try a specific category like &ldquo;engineering&rdquo;, &ldquo;medical&rdquo;, or a tool name such as &ldquo;ROI&rdquo;.
-            </p>
-          </div>
+          favoriteTools.length === 0 && (
+            <div className="rounded-2xl border border-gray-800 bg-gray-900/50 p-10 text-center">
+              <p className="text-lg font-medium text-gray-200">No tools match your search.</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchQuery('');
+                  document.getElementById('tool-search')?.focus();
+                }}
+                className="mt-4 rounded-lg border border-gray-600 bg-gray-800 px-4 py-2 text-sm font-medium text-gray-200 transition-colors hover:bg-gray-700 hover:text-white"
+              >
+                Show all tools
+              </button>
+              <p className="mt-2 text-sm text-gray-400">
+                Try a specific category like &ldquo;engineering&rdquo;, &ldquo;medical&rdquo;, or a tool name such as &ldquo;ROI&rdquo;.
+              </p>
+            </div>
+          )
         )}
       </div>
     </main>
