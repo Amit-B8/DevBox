@@ -105,6 +105,12 @@ export default function TextAnalyzer() {
             <button type="button" className={buttonClass} disabled={!text} onClick={downloadText}>Download .txt</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.toUpperCase(), 'Converted to uppercase.')}>UPPERCASE</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.toLowerCase(), 'Converted to lowercase.')}>lowercase</button>
+            <button type="button" className={buttonClass} disabled={!text} title="Keep the first occurrence of each exact line. Capitalization and spaces matter." onClick={() => {
+              const lines = text.split(/\r?\n/u);
+              const uniqueLines = [...new Set(lines)];
+              const removed = lines.length - uniqueLines.length;
+              transform(removed ? uniqueLines.join('\n') : text, `${removed} duplicate ${removed === 1 ? 'line' : 'lines'} removed. First occurrences kept.`);
+            }}>Remove duplicate lines</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.split(/\r?\n/u).map((line) => line.replace(/[^\S\r\n]+/gu, ' ').trim()).join('\n').trim(), 'Extra spaces removed. Line breaks preserved.')}>Clean up spaces</button>
             <button type="button" className={buttonClass} disabled={previousText === null} onClick={() => {
               if (previousText !== null) {
