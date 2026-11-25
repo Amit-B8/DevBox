@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { csvToRecords } from '@/lib/csv';
 
 export default function CsvToJson() {
   const [csvInput, setCsvInput] = useState('');
@@ -18,21 +19,7 @@ export default function CsvToJson() {
     }
 
     try {
-      const lines = input.trim().split('\n');
-      if (lines.length < 2) {
-        throw new Error('CSV must contain at least a header row and one data row.');
-      }
-
-      const headers = lines[0].split(',').map(header => header.trim());
-      
-      const result = lines.slice(1).map(line => {
-        const values = line.split(',');
-        const obj: Record<string, string> = {};
-        headers.forEach((header, index) => {
-          obj[header] = values[index] ? values[index].trim() : '';
-        });
-        return obj;
-      });
+      const result = csvToRecords(input);
 
       setJsonOutput(JSON.stringify(result, null, 2));
       setError('');
@@ -53,6 +40,8 @@ export default function CsvToJson() {
         <header className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">CSV to JSON Converter</h1>
           <p className="text-gray-400 mt-1">Instantly structure comma-separated spreadsheet data into JSON arrays.</p>
+          <p id="csv-help" className="mt-3 text-sm text-gray-400">Supports quoted commas, doubled quotes, and multiline fields. Use unique column headers; values stay as strings. Maximum 200,000 characters. Nothing is uploaded.</p>
+          <button type="button" onClick={() => handleConvert('name,note\nAda,"Hello, world"\nSam,"Said ""hello"""')} className="mt-4 rounded-lg border border-gray-600 px-4 py-2 text-sm hover:bg-gray-800">Load quoted CSV example</button>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-grow pb-12">
@@ -69,6 +58,9 @@ export default function CsvToJson() {
               </button>
             </div>
             <textarea
+              aria-label="CSV input"
+              aria-describedby="csv-help csv-error"
+              aria-invalid={!!error}
               value={csvInput}
               onChange={(e) => handleConvert(e.target.value)}
               placeholder="id, name, role&#10;1, John Doe, Admin&#10;2, Jane Smith, Developer"
@@ -80,8 +72,8 @@ export default function CsvToJson() {
           <div className="bg-gray-900 border border-gray-800 rounded-xl flex flex-col shadow-xl overflow-hidden">
             <div className="bg-gray-800 border-b border-gray-700 px-4 py-3 flex justify-between items-center">
               <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">JSON Output</h3>
-              {error && <span className="text-xs text-red-400">{error}</span>}
             </div>
+            <p id="csv-error" role="alert" className="px-4 pt-3 text-sm text-red-400">{error}</p>
             <pre className="w-full flex-grow min-h-[300px] bg-gray-950/50 p-4 text-sm font-mono text-blue-400 overflow-auto">
               {jsonOutput || '// Your formatted JSON will appear here...'}
             </pre>
