@@ -12,7 +12,7 @@ export default function BitwiseCalculator() {
     const val1 = parseInt(num1, 10);
     const val2 = parseInt(num2, 10);
 
-    if (isNaN(val1)) return { dec: 0, bin: '0' };
+    if (isNaN(val1)) return { dec: 0, bin: '0', hex: '00' };
 
     let result = 0;
     switch (operation) {
@@ -29,7 +29,8 @@ export default function BitwiseCalculator() {
     
     return {
       dec: result,
-      bin: unsignedResult.toString(2).padStart(8, '0')
+      bin: unsignedResult.toString(2).padStart(8, '0'),
+      hex: unsignedResult.toString(16).toUpperCase().padStart(2, '0'),
     };
   };
 
@@ -107,7 +108,12 @@ export default function BitwiseCalculator() {
                 <span className="text-gray-500 w-24 inline-block">Binary:</span>
                 <span className="text-2xl font-mono text-blue-400 break-all">{result.bin}</span>
               </div>
+              <div>
+                <span className="text-gray-500 w-24 inline-block">Hex:</span>
+                <span className="text-2xl font-mono text-emerald-400 break-all">0x{result.hex}</span>
+              </div>
             </div>
+            <p className="mt-4 text-sm text-gray-400">Binary and HEX show the unsigned 32-bit representation; decimal is signed.</p>
           </div>
 
         </div>
