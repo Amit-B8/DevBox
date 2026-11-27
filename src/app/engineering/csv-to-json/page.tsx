@@ -9,6 +9,18 @@ export default function CsvToJson() {
   const [jsonOutput, setJsonOutput] = useState('');
   const [error, setError] = useState('');
 
+  const downloadJson = () => {
+    if (!jsonOutput) return;
+    const url = URL.createObjectURL(new Blob([jsonOutput], { type: 'application/json' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'devbox-data.json';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+
   const handleConvert = (input: string) => {
     setCsvInput(input);
     
@@ -72,6 +84,7 @@ export default function CsvToJson() {
           <div className="bg-gray-900 border border-gray-800 rounded-xl flex flex-col shadow-xl overflow-hidden">
             <div className="bg-gray-800 border-b border-gray-700 px-4 py-3 flex justify-between items-center">
               <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider">JSON Output</h3>
+              <button type="button" disabled={!jsonOutput} onClick={downloadJson} className="min-h-11 rounded-lg px-3 text-sm text-blue-300 hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed">Download .json</button>
             </div>
             <p id="csv-error" role="alert" className="px-4 pt-3 text-sm text-red-400">{error}</p>
             <pre className="w-full flex-grow min-h-[300px] bg-gray-950/50 p-4 text-sm font-mono text-blue-400 overflow-auto">
