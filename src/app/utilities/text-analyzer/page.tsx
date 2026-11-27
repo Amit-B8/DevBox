@@ -111,6 +111,7 @@ export default function TextAnalyzer() {
               const removed = lines.length - uniqueLines.length;
               transform(removed ? uniqueLines.join('\n') : text, `${removed} duplicate ${removed === 1 ? 'line' : 'lines'} removed. First occurrences kept.`);
             }}>Remove duplicate lines</button>
+            <button type="button" className={buttonClass} disabled={!text} title="Sort whole lines alphabetically, ignoring case. Blank lines move to the top." onClick={() => transform(text.split(/\r?\n/u).sort((a, b) => a.localeCompare(b, 'en', { sensitivity: 'base', numeric: true })).join('\n'), 'Lines sorted A–Z. Blank lines appear first. You can undo this action.')}>Sort lines A–Z</button>
             <button type="button" className={buttonClass} disabled={!text} onClick={() => transform(text.split(/\r?\n/u).map((line) => line.replace(/[^\S\r\n]+/gu, ' ').trim()).join('\n').trim(), 'Extra spaces removed. Line breaks preserved.')}>Clean up spaces</button>
             <button type="button" className={buttonClass} disabled={previousText === null} onClick={() => {
               if (previousText !== null) {
